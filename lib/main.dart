@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:undermatch_app/routes/routes.dart';
+import 'package:undermatch_app/widgets/equipos/equipos_inicio.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,6 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: Routes.INICIO,
+      routes: {
+        Routes.INICIO: (context) => const MyHomePage(title: 'UnderMatch API'),
+        Routes.EQUIPOS: (context) => const EquiposInicio()
+      },
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -43,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text("Servicios de la API"),
             ElevatedButton(
                 onPressed: () {
+                  Navigator.pushReplacementNamed(context, Routes.EQUIPOS);
                   print("Entro a los servicios de los Equipos");
                 },
                 child: const Text("Equipos"))

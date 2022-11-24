@@ -9,6 +9,7 @@ class EquiposInicio extends StatelessWidget {
       appBar: AppBar(title: const Text("Equipos")),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text("Servicios:"),
             ElevatedButton(

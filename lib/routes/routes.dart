@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class Routes {
-  static const INICIO = "/";
+  static const INICIO = "/inicio";
 
   // Rutas de los equipos
   static const EQUIPOS = "/equipos";
