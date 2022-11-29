@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../routes/routes.dart';
+
 class EquiposInicio extends StatelessWidget {
   const EquiposInicio({Key? key}) : super(key: key);
 
@@ -13,7 +15,11 @@ class EquiposInicio extends StatelessWidget {
           children: [
             const Text("Servicios:"),
             ElevatedButton(
-                onPressed: () => print("Consultar equipo"),
+                onPressed: () {
+                  //print("Consultar equipo");
+                  Navigator.pushReplacementNamed(
+                      context, Routes.EQUIPOS_CONSULTAR);
+                },
                 child: const Text("Consultar")),
             ElevatedButton(
                 onPressed: () => print("Consultar equipo por Id"),
