@@ -25,7 +25,10 @@ class EquiposInicio extends StatelessWidget {
                 onPressed: () => print("Consultar equipo por Id"),
                 child: const Text("Consultar por ID")),
             ElevatedButton(
-                onPressed: () => print("Agregar equipo"),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(
+                      context, Routes.EQUIPOS_AGREGAR);
+                },
                 child: const Text("Agregar")),
             ElevatedButton(
                 onPressed: () => print("Editar equipo"),

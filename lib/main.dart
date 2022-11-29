@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:undermatch_app/routes/routes.dart';
+import 'package:undermatch_app/widgets/equipos/equipos_agregar.dart';
 import 'package:undermatch_app/widgets/equipos/equipos_consultar.dart';
 import 'package:undermatch_app/widgets/equipos/equipos_inicio.dart';
 
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
       routes: {
         Routes.INICIO: (context) => const MyHomePage(title: 'UnderMatch API'),
         Routes.EQUIPOS: (context) => const EquiposInicio(),
-        Routes.EQUIPOS_CONSULTAR: (context) => const EquiposConsultar()
+        Routes.EQUIPOS_CONSULTAR: (context) => const EquiposConsultar(),
+        Routes.EQUIPOS_AGREGAR: (context) => const EquiposAgregar()
       },
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
