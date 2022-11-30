@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../routes/routes.dart';
+import 'package:undermatch_app/widgets/equipos/itemList.dart';
 
 class EquiposInicio extends StatelessWidget {
   const EquiposInicio({Key? key}) : super(key: key);
@@ -9,38 +8,56 @@ class EquiposInicio extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Equipos")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Servicios:"),
-            ElevatedButton(
-                onPressed: () {
-                  //print("Consultar equipo");
-                  Navigator.pushReplacementNamed(
-                      context, Routes.EQUIPOS_CONSULTAR);
-                },
-                child: const Text("Consultar")),
-            ElevatedButton(
-                onPressed: () => print("Consultar equipo por Id"),
-                child: const Text("Consultar por ID")),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(
-                      context, Routes.EQUIPOS_AGREGAR);
-                },
-                child: const Text("Agregar")),
-            ElevatedButton(
-                onPressed: () => print("Editar equipo"),
-                child: const Text("Editar")),
-            ElevatedButton(
-                onPressed: () => print("Eliminar equipo"),
-                child: const Text("Eliminar")),
-            ElevatedButton(
-                onPressed: () => print("Activar equipo"),
-                child: const Text("Activar"))
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        flex: 7,
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            label: Text("Buscar"),
+                          ),
+                        )),
+                    Expanded(
+                        flex: 1,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.search,
+                            color: Colors.amber,
+                          ),
+                          onPressed: () {
+                            print("Buscando ...");
+                          },
+                        ))
+                  ],
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      print("Limpiando busqueda");
+                    },
+                    child: const Text("Limpiar busqueda")),
+                // Agregar listas
+                const SizedBox(
+                  height: 20,
+                ),
+
+                ItemListEquipos(nombre: "Pumas", numMiembros: 11),
+              ],
+            ),
+          ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("Agregar"),
+        splashColor: Colors.amber,
+        onPressed: () {
+          print("Agregar");
+        },
       ),
     );
   }
