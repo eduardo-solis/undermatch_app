@@ -1,11 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:undermatch_app/widgets/equipos/itemList.dart';
+import 'package:undermatch_app/widgets/equipos/myDialog.dart';
 
 class EquiposInicio extends StatelessWidget {
   const EquiposInicio({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    buscar() {
+      print("Buscar");
+    }
+
+    limpiar() {
+      print("Limpiar");
+    }
+
+    Future<void> _dialog() async {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const MyDialogEquipo();
+          });
+    }
+
+    agregar() {
+      print("Agregar");
+      _dialog();
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text("Equipos")),
       body: SingleChildScrollView(
@@ -30,16 +52,12 @@ class EquiposInicio extends StatelessWidget {
                             Icons.search,
                             color: Colors.amber,
                           ),
-                          onPressed: () {
-                            print("Buscando ...");
-                          },
+                          onPressed: () => buscar(),
                         ))
                   ],
                 ),
                 ElevatedButton(
-                    onPressed: () {
-                      print("Limpiando busqueda");
-                    },
+                    onPressed: () => limpiar(),
                     child: const Text("Limpiar busqueda")),
                 // Agregar listas
                 const SizedBox(
@@ -55,9 +73,7 @@ class EquiposInicio extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Agregar"),
         splashColor: Colors.amber,
-        onPressed: () {
-          print("Agregar");
-        },
+        onPressed: () => agregar(),
       ),
     );
   }

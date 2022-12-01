@@ -9,8 +9,16 @@ class ItemListEquipos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    editar() {
+      print("Editar");
+    }
+
+    eliminar() {
+      print("Eliminar");
+    }
+
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       height: 70,
       padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(
@@ -46,13 +54,13 @@ class ItemListEquipos extends StatelessWidget {
           Row(
             children: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () => eliminar(),
                   icon: const Icon(
                     Icons.delete,
                     color: Colors.red,
                   )),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () => editar(),
                   icon: const Icon(
                     Icons.edit,
                     color: Colors.blue,
