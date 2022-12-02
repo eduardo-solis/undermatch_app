@@ -38,3 +38,76 @@ class EquiposAPI {
     }
   }
 }
+
+Future<String> agregar(Equipo e) async {
+  try {
+    Uri url = Uri.https('443f-189-203-236-12.ngrok.io', '/api/tblEquipos', {
+      "nombre": e.nombre,
+      "categoria": e.categoria,
+      "zona": e.zona,
+      "anioFundacion": e.anioFundacion,
+      "colorLocal": e.colorLocal,
+      "colorVisitante": e.colorVisitante
+    });
+    final response = await http.post(url);
+    if (response.statusCode == 201) {
+      return "OK";
+    } else {
+      return "ERROR";
+    }
+  } catch (ex) {
+    return "ERROR";
+  }
+}
+
+Future<String> editar(Equipo e) async {
+  try {
+    Uri url = Uri.https('443f-189-203-236-12.ngrok.io', '/api/tblEquipos', {
+      "idEquipo": e.id,
+      "nombre": e.nombre,
+      "categoria": e.categoria,
+      "zona": e.zona,
+      "anioFundacion": e.anioFundacion,
+      "colorLocal": e.colorLocal,
+      "colorVisitante": e.colorVisitante
+    });
+    final response = await http.put(url);
+    if (response.statusCode == 200) {
+      return "OK";
+    } else {
+      return "ERROR";
+    }
+  } catch (ex) {
+    return "ERROR";
+  }
+}
+
+Future<String> eliminar(int idEquipo) async {
+  try {
+    Uri url = Uri.https('443f-189-203-236-12.ngrok.io', '/api/tblEquipos',
+        {"idEquipo": idEquipo, "operacion": 0});
+    final response = await http.delete(url);
+    if (response.statusCode == 200) {
+      return "OK";
+    } else {
+      return "ERROR";
+    }
+  } catch (ex) {
+    return "ERROR";
+  }
+}
+
+Future<String> activar(int idEquipo) async {
+  try {
+    Uri url = Uri.https('443f-189-203-236-12.ngrok.io', '/api/tblEquipos',
+        {"idEquipo": idEquipo, "operacion": 1});
+    final response = await http.delete(url);
+    if (response.statusCode == 200) {
+      return "OK";
+    } else {
+      return "ERROR";
+    }
+  } catch (ex) {
+    return "ERROR";
+  }
+}
