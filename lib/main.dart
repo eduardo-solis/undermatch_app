@@ -12,7 +12,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: Routes.INICIO,
       routes: {
         Routes.INICIO: (context) => const MyHomePage(title: 'UnderMatch API'),
         Routes.EQUIPOS: (context) => const EquiposInicio(),
@@ -50,7 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text("Servicios de la API"),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, Routes.EQUIPOS);
+                  Navigator.pushNamed(context, Routes.EQUIPOS);
+                  //Navigator.pushReplacementNamed(context, Routes.EQUIPOS);
                   print("Entro a los servicios de los Equipos");
                 },
                 child: const Text("Equipos"))

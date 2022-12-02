@@ -1,25 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:undermatch_app/widgets/equipos/myDialog.dart';
 
 class ItemListEquipos extends StatelessWidget {
-  final String nombre;
-  final int numMiembros;
+  final int Id;
+  final String Nombre;
+  final int Categoria;
+  final String AnioFundacion;
+  final String Zona;
+  final String ColorLocal;
+  final String ColorVisitante;
+  final int Estatus;
   const ItemListEquipos(
-      {Key? key, required this.nombre, required this.numMiembros})
+      {Key? key,
+      required this.Nombre,
+      required this.Id,
+      required this.Categoria,
+      required this.AnioFundacion,
+      required this.Zona,
+      required this.ColorLocal,
+      required this.ColorVisitante,
+      required this.Estatus})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Future<void> _dialog() async {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return MyDialogEquipo(
+              id: Id,
+              nombre: Nombre,
+              anioFundacion: AnioFundacion,
+              categoria: Categoria,
+              colorLocal: ColorLocal,
+              colorVisitante: ColorVisitante,
+              zona: Zona,
+            );
+          });
+    }
+
     editar() {
       print("Editar");
+      _dialog();
     }
 
     eliminar() {
       print("Eliminar");
     }
 
+    activar() {
+      print("Activar");
+    }
+
     return Container(
       margin: const EdgeInsets.all(10),
-      height: 70,
       padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -47,18 +82,23 @@ class ItemListEquipos extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Nombre: $nombre"),
-              Text("Núm. Miembros: $numMiembros"),
+              Text("Nombre: $Nombre"),
+              Text("Núm. Miembros: $AnioFundacion"),
             ],
           ),
           Row(
             children: [
               IconButton(
-                  onPressed: () => eliminar(),
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  )),
+                  onPressed: Estatus == 0 ? () => activar() : () => eliminar(),
+                  icon: Estatus == 0
+                      ? const Icon(
+                          Icons.toggle_off,
+                          color: Colors.red,
+                        )
+                      : const Icon(
+                          Icons.toggle_on,
+                          color: Colors.green,
+                        )),
               IconButton(
                   onPressed: () => editar(),
                   icon: const Icon(
@@ -66,7 +106,7 @@ class ItemListEquipos extends StatelessWidget {
                     color: Colors.blue,
                   )),
             ],
-          )
+          ),
         ],
       ),
     );
