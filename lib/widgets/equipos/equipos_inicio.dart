@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:undermatch_app/api/equiposAPI.dart';
 import 'package:undermatch_app/models/equipo.dart';
-import 'package:undermatch_app/widgets/equipos/itemList.dart';
-import 'package:undermatch_app/widgets/equipos/myDialog.dart';
+import 'package:undermatch_app/widgets/equipos/elementoEquipo.dart';
+import 'package:undermatch_app/widgets/equipos/formularioEquipos.dart';
 
 class EquiposInicio extends StatefulWidget {
   const EquiposInicio({Key? key}) : super(key: key);
@@ -15,18 +15,20 @@ class _EquiposInicioState extends State<EquiposInicio> {
   late Future<List<Equipo>> equipos;
   late Future<List<Equipo>> equiposFiltrados;
   bool buscando = false;
+  final TextEditingController _textoABuscar = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     equipos = EquiposAPI().getList();
+    equiposFiltrados = equipos.then((value) => value);
   }
 
   List<Widget> _listaEquipos(List<Equipo> data) {
     List<Widget> equipos = [];
 
     for (var equipo in data) {
-      equipos.add(ItemListEquipos(
+      equipos.add(ElementoEquipo(
           Nombre: equipo.nombre,
           Id: equipo.id,
           Categoria: equipo.categoria,
@@ -40,40 +42,63 @@ class _EquiposInicioState extends State<EquiposInicio> {
     return equipos;
   }
 
+  buscar() {
+    if (_textoABuscar.text.length != 0) {
+      equiposFiltrados = equipos.then((value) {
+        String aux = _textoABuscar.text.toLowerCase();
+        List<Equipo> auxEquipos = [];
+        for (var element in value) {
+          if (element.nombre.toLowerCase() == aux) {
+            auxEquipos.add(element);
+          }
+        }
+        return auxEquipos;
+      });
+
+      buscando = true;
+      setState(() {});
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: const Text("Ingrese el nombre del equipo a buscar",
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          backgroundColor: Colors.amber,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0))));
+    }
+  }
+
+  limpiar() {
+    equiposFiltrados = equipos;
+    _textoABuscar.text = "";
+    buscando = false;
+    setState(() {});
+  }
+
+  Future<void> _formularioEquipos() async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const FormularioEquipos(
+            id: 0,
+            nombre: "",
+            anioFundacion: "",
+            categoria: 0,
+            colorLocal: "",
+            colorVisitante: "",
+            zona: "",
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-    buscar() {
-      print("Buscar");
-      setState(() {
-        buscando = true;
-      });
-    }
-
-    limpiar() {
-      print("Limpiar");
-      setState(() {
-        buscando = false;
-      });
-    }
-
-    Future<void> _dialog() async {
-      return showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const MyDialogEquipo(
-              id: 0,
-              nombre: "",
-              anioFundacion: "",
-              categoria: 0,
-              colorLocal: "",
-              colorVisitante: "",
-              zona: "",
-            );
-          });
-    }
-
     return Scaffold(
-      appBar: AppBar(title: const Text("Equipos")),
+      appBar: AppBar(
+        title: const Text("Equipos"),
+        centerTitle: true,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Container(
@@ -85,6 +110,7 @@ class _EquiposInicioState extends State<EquiposInicio> {
                     Expanded(
                         flex: 7,
                         child: TextFormField(
+                          controller: _textoABuscar,
                           decoration: const InputDecoration(
                             label: Text("Buscar"),
                           ),
@@ -112,13 +138,22 @@ class _EquiposInicioState extends State<EquiposInicio> {
                 ),
 
                 FutureBuilder(
-                  future: equipos,
+                  future: equiposFiltrados,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      return ListView(
-                        shrinkWrap: true,
-                        children: _listaEquipos(snapshot.data as List<Equipo>),
-                      );
+                      if (snapshot.data!.isEmpty) {
+                        return const Text(
+                          "No se encontro nada",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        );
+                      } else {
+                        return ListView(
+                          shrinkWrap: true,
+                          children:
+                              _listaEquipos(snapshot.data as List<Equipo>),
+                        );
+                      }
                     } else if (snapshot.hasError) {
                       return const Text("NO Hay info");
                     }
@@ -133,7 +168,7 @@ class _EquiposInicioState extends State<EquiposInicio> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Agregar"),
         splashColor: Colors.amber,
-        onPressed: () => _dialog(),
+        onPressed: () => _formularioEquipos(),
       ),
     );
   }

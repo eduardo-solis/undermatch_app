@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:undermatch_app/api/equiposAPI.dart';
 import 'package:undermatch_app/models/equipo.dart';
 
-class MyDialogEquipo extends StatefulWidget {
+class FormularioEquipos extends StatefulWidget {
   final int id;
   final String nombre;
   final int categoria;
@@ -11,7 +11,7 @@ class MyDialogEquipo extends StatefulWidget {
   final String colorLocal;
   final String colorVisitante;
 
-  const MyDialogEquipo({
+  const FormularioEquipos({
     Key? key,
     required this.id,
     required this.nombre,
@@ -23,69 +23,79 @@ class MyDialogEquipo extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MyDialogEquipo> createState() => _MyDialogEquipoState();
+  State<FormularioEquipos> createState() => _FormularioEquiposState();
 }
 
-class _MyDialogEquipoState extends State<MyDialogEquipo> {
-  @override
-  Widget build(BuildContext context) {
-    final GlobalKey<FormState> _form = GlobalKey<FormState>();
-    TextEditingController _nombre = TextEditingController(text: widget.nombre);
-    TextEditingController _categoria =
-        TextEditingController(text: widget.categoria.toString());
-    TextEditingController _anioFundacion =
-        TextEditingController(text: widget.anioFundacion);
-    TextEditingController _zona = TextEditingController(text: widget.zona);
-    TextEditingController _colorLocal =
-        TextEditingController(text: widget.colorLocal);
-    TextEditingController _colorVisitante =
-        TextEditingController(text: widget.colorVisitante);
+class _FormularioEquiposState extends State<FormularioEquipos> {
+  final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
-    void guardar() {
-      if (_form.currentState!.validate()) {
-        if (widget.id != 0) {
-          print("Se ha actualizado un registro");
+  final TextEditingController _nombre = TextEditingController();
+  final TextEditingController _categoria = TextEditingController();
+  final TextEditingController _anioFundacion = TextEditingController();
+  final TextEditingController _zona = TextEditingController();
+  final TextEditingController _colorLocal = TextEditingController();
+  final TextEditingController _colorVisitante = TextEditingController();
 
-          Equipo equipo = Equipo(
-              widget.id,
-              widget.nombre,
-              widget.categoria,
-              widget.anioFundacion,
-              widget.zona,
-              widget.colorLocal,
-              widget.colorVisitante,
-              1);
+  guardar() {
+    if (_form.currentState!.validate()) {
+      if (widget.id != 0) {
+        print("Se ha actualizado un registro");
 
-          String res = EquiposAPI().editar(equipo).toString();
+        Equipo equipo = Equipo(
+            widget.id,
+            widget.nombre,
+            widget.categoria,
+            widget.anioFundacion,
+            widget.zona,
+            widget.colorLocal,
+            widget.colorVisitante,
+            1);
 
-          if (res == "OK") {
-            //Añadir snackbar de exito
-          } else if (res == "ERROR") {
-            // Añadir snackbar de error
-          }
-        } else {
-          print("Se ha guardado un nuevo registro");
-          Equipo equipo = Equipo(
-              widget.id,
-              widget.nombre,
-              widget.categoria,
-              widget.anioFundacion,
-              widget.zona,
-              widget.colorLocal,
-              widget.colorVisitante,
-              1);
+        /*EquiposAPI().editar(equipo).then((res) {
+            if (res == "OK") {
+              //Añadir snackbar de exito
+            } else if (res == "ERROR") {
+              // Añadir snackbar de error
+            }
+          });*/
+      } else {
+        print("Se ha guardado un nuevo registro");
+        Equipo equipo = Equipo(
+            widget.id,
+            widget.nombre,
+            widget.categoria,
+            widget.anioFundacion,
+            widget.zona,
+            widget.colorLocal,
+            widget.colorVisitante,
+            1);
 
-          String res = EquiposAPI().agregar(equipo).toString();
+        /*String res = EquiposAPI().agregar(equipo).toString();
 
           if (res == "OK") {
             //Añadir snackbar de exito
           } else if (res == "ERROR") {
             // Añadir snackbar de error
-          }
-        }
+          }*/
       }
     }
+  }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _nombre.text = widget.nombre;
+    _anioFundacion.text = widget.anioFundacion;
+    _categoria.text = widget.categoria.toString();
+    _zona.text = widget.zona;
+    _colorLocal.text = widget.colorLocal;
+    _colorVisitante.text = widget.colorVisitante;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Form(
       key: _form,
       child: SimpleDialog(
