@@ -13,6 +13,7 @@ class EquiposInicio extends StatefulWidget {
 
 class _EquiposInicioState extends State<EquiposInicio> {
   late Future<List<Equipo>> equipos;
+  late Future<List<Equipo>> equiposFiltrados;
   bool buscando = false;
 
   @override
@@ -69,11 +70,6 @@ class _EquiposInicioState extends State<EquiposInicio> {
               zona: "",
             );
           });
-    }
-
-    agregar() {
-      print("Agregar");
-      _dialog();
     }
 
     return Scaffold(
@@ -137,7 +133,7 @@ class _EquiposInicioState extends State<EquiposInicio> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Agregar"),
         splashColor: Colors.amber,
-        onPressed: () => agregar(),
+        onPressed: () => _dialog(),
       ),
     );
   }

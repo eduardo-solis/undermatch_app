@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:undermatch_app/api/equiposAPI.dart';
 import 'package:undermatch_app/widgets/equipos/myDialog.dart';
 
-class ItemListEquipos extends StatelessWidget {
+class ItemListEquipos extends StatefulWidget {
   final int Id;
   final String Nombre;
   final int Categoria;
@@ -23,34 +24,86 @@ class ItemListEquipos extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<ItemListEquipos> createState() => _ItemListEquiposState();
+}
+
+class _ItemListEquiposState extends State<ItemListEquipos> {
+  late int estatusEquipo;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    estatusEquipo = widget.Estatus;
+  }
+
+  @override
   Widget build(BuildContext context) {
     Future<void> _dialog() async {
       return showDialog(
           context: context,
           builder: (BuildContext context) {
             return MyDialogEquipo(
-              id: Id,
-              nombre: Nombre,
-              anioFundacion: AnioFundacion,
-              categoria: Categoria,
-              colorLocal: ColorLocal,
-              colorVisitante: ColorVisitante,
-              zona: Zona,
+              id: widget.Id,
+              nombre: widget.Nombre,
+              anioFundacion: widget.AnioFundacion,
+              categoria: widget.Categoria,
+              colorLocal: widget.ColorLocal,
+              colorVisitante: widget.ColorVisitante,
+              zona: widget.Zona,
             );
           });
     }
 
-    editar() {
-      print("Editar");
-      _dialog();
-    }
-
     eliminar() {
-      print("Eliminar");
+      EquiposAPI().eliminar(widget.Id).then((res) {
+        if (res == "OK") {
+          setState(() {
+            estatusEquipo = 0;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: const Text("Se ha desactivado un equipo",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0))));
+        } else if (res == "ERROR") {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: const Text(
+                  "Ha ocurrido un error al desactivar un equipo",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              backgroundColor: Colors.red,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0))));
+        }
+      });
     }
 
     activar() {
-      print("Activar");
+      EquiposAPI().activar(widget.Id).then((res) {
+        if (res == "OK") {
+          setState(() {
+            estatusEquipo = 1;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: const Text("Se ha activado un equipo",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0))));
+        } else if (res == "ERROR") {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: const Text("Ha ocurrido un error al activar un equipo",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              backgroundColor: Colors.red,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0))));
+        }
+      });
     }
 
     return Container(
@@ -82,15 +135,17 @@ class ItemListEquipos extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Nombre: $Nombre"),
-              Text("Núm. Miembros: $AnioFundacion"),
+              Text("Nombre: ${widget.Nombre}"),
+              Text("Zona: ${widget.Zona}"),
+              Text("Año de Fundación: ${widget.AnioFundacion}"),
             ],
           ),
           Row(
             children: [
               IconButton(
-                  onPressed: Estatus == 0 ? () => activar() : () => eliminar(),
-                  icon: Estatus == 0
+                  onPressed:
+                      estatusEquipo == 0 ? () => activar() : () => eliminar(),
+                  icon: estatusEquipo == 0
                       ? const Icon(
                           Icons.toggle_off,
                           color: Colors.red,
@@ -100,7 +155,7 @@ class ItemListEquipos extends StatelessWidget {
                           color: Colors.green,
                         )),
               IconButton(
-                  onPressed: () => editar(),
+                  onPressed: () => _dialog(),
                   icon: const Icon(
                     Icons.edit,
                     color: Colors.blue,

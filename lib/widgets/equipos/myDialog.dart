@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:undermatch_app/api/equiposAPI.dart';
+import 'package:undermatch_app/models/equipo.dart';
 
 class MyDialogEquipo extends StatefulWidget {
   final int id;
@@ -40,13 +42,46 @@ class _MyDialogEquipoState extends State<MyDialogEquipo> {
         TextEditingController(text: widget.colorVisitante);
 
     void guardar() {
-      // Checamos que el formulario este validado
-
       if (_form.currentState!.validate()) {
         if (widget.id != 0) {
           print("Se ha actualizado un registro");
+
+          Equipo equipo = Equipo(
+              widget.id,
+              widget.nombre,
+              widget.categoria,
+              widget.anioFundacion,
+              widget.zona,
+              widget.colorLocal,
+              widget.colorVisitante,
+              1);
+
+          String res = EquiposAPI().editar(equipo).toString();
+
+          if (res == "OK") {
+            //Añadir snackbar de exito
+          } else if (res == "ERROR") {
+            // Añadir snackbar de error
+          }
         } else {
           print("Se ha guardado un nuevo registro");
+          Equipo equipo = Equipo(
+              widget.id,
+              widget.nombre,
+              widget.categoria,
+              widget.anioFundacion,
+              widget.zona,
+              widget.colorLocal,
+              widget.colorVisitante,
+              1);
+
+          String res = EquiposAPI().agregar(equipo).toString();
+
+          if (res == "OK") {
+            //Añadir snackbar de exito
+          } else if (res == "ERROR") {
+            // Añadir snackbar de error
+          }
         }
       }
     }

@@ -1,12 +1,15 @@
-//import 'package:undermatch_app/models/equipo.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:undermatch_app/models/equipo.dart';
 
 class EquiposAPI {
+  final String urlBase =
+      "https://35ee-2806-2f0-6000-f28d-4079-44ea-70da-56df.ngrok.io";
+
   Future<List<Equipo>> getList() async {
-    Uri url = Uri.https('443f-189-203-236-12.ngrok.io', '/api/tblEquipos');
+    Uri url = Uri.https('35ee-2806-2f0-6000-f28d-4079-44ea-70da-56df.ngrok.io',
+        '/api/tblEquipos');
 
     List<Equipo> equipos = [];
 
@@ -37,77 +40,81 @@ class EquiposAPI {
       return [];
     }
   }
-}
 
-Future<String> agregar(Equipo e) async {
-  try {
-    Uri url = Uri.https('443f-189-203-236-12.ngrok.io', '/api/tblEquipos', {
-      "nombre": e.nombre,
-      "categoria": e.categoria,
-      "zona": e.zona,
-      "anioFundacion": e.anioFundacion,
-      "colorLocal": e.colorLocal,
-      "colorVisitante": e.colorVisitante
-    });
-    final response = await http.post(url);
-    if (response.statusCode == 201) {
-      return "OK";
-    } else {
+  Future<String> agregar(Equipo e) async {
+    try {
+      String nombre = e.nombre;
+      int categoria = e.categoria;
+      String zona = e.zona;
+      String anioFundacion = e.anioFundacion;
+      String colorLocal = e.colorLocal;
+      String colorVisitante = e.colorVisitante;
+
+      var url = Uri.parse(
+          '$urlBase/api/tblEquipos/?nombre=$nombre&categoria=$categoria&anioFundacion=$anioFundacion&zona=$zona&colorVisitante=$colorVisitante&colorLocal=$colorLocal');
+      final response = await http.post(url);
+      if (response.statusCode == 201) {
+        return "OK";
+      } else {
+        return "ERROR";
+      }
+    } catch (ex) {
       return "ERROR";
     }
-  } catch (ex) {
-    return "ERROR";
   }
-}
 
-Future<String> editar(Equipo e) async {
-  try {
-    Uri url = Uri.https('443f-189-203-236-12.ngrok.io', '/api/tblEquipos', {
-      "idEquipo": e.id,
-      "nombre": e.nombre,
-      "categoria": e.categoria,
-      "zona": e.zona,
-      "anioFundacion": e.anioFundacion,
-      "colorLocal": e.colorLocal,
-      "colorVisitante": e.colorVisitante
-    });
-    final response = await http.put(url);
-    if (response.statusCode == 200) {
-      return "OK";
-    } else {
+  Future<String> editar(Equipo e) async {
+    try {
+      int id = e.id;
+      String nombre = e.nombre;
+      int categoria = e.categoria;
+      String zona = e.zona;
+      String anioFundacion = e.anioFundacion;
+      String colorLocal = e.colorLocal;
+      String colorVisitante = e.colorVisitante;
+
+      var url = Uri.parse(
+          '$urlBase/api/tblEquipos/?idEquipo=$id&nombre=$nombre&categoria=$categoria&anioFundacion=$anioFundacion&zona=$zona&colorVisitante=$colorVisitante&colorLocal=$colorLocal');
+
+      final response = await http.put(url);
+      if (response.statusCode == 200) {
+        return "OK";
+      } else {
+        return "ERROR";
+      }
+    } catch (ex) {
       return "ERROR";
     }
-  } catch (ex) {
-    return "ERROR";
   }
-}
 
-Future<String> eliminar(int idEquipo) async {
-  try {
-    Uri url = Uri.https('443f-189-203-236-12.ngrok.io', '/api/tblEquipos',
-        {"idEquipo": idEquipo, "operacion": 0});
-    final response = await http.delete(url);
-    if (response.statusCode == 200) {
-      return "OK";
-    } else {
+  Future<String> eliminar(int idEquipo) async {
+    try {
+      var url =
+          Uri.parse('$urlBase/api/tblEquipos/?idEquipo=$idEquipo&operacion=0');
+
+      final response = await http.delete(url);
+      if (response.statusCode == 200) {
+        return "OK";
+      } else {
+        return "ERROR";
+      }
+    } catch (ex) {
       return "ERROR";
     }
-  } catch (ex) {
-    return "ERROR";
   }
-}
 
-Future<String> activar(int idEquipo) async {
-  try {
-    Uri url = Uri.https('443f-189-203-236-12.ngrok.io', '/api/tblEquipos',
-        {"idEquipo": idEquipo, "operacion": 1});
-    final response = await http.delete(url);
-    if (response.statusCode == 200) {
-      return "OK";
-    } else {
+  Future<String> activar(int idEquipo) async {
+    try {
+      var url =
+          Uri.parse('$urlBase/api/tblEquipos/?idEquipo=$idEquipo&operacion=1');
+      final response = await http.delete(url);
+      if (response.statusCode == 200) {
+        return "OK";
+      } else {
+        return "ERROR";
+      }
+    } catch (ex) {
       return "ERROR";
     }
-  } catch (ex) {
-    return "ERROR";
   }
 }
