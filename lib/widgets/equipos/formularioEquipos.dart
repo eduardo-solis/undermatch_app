@@ -39,44 +39,71 @@ class _FormularioEquiposState extends State<FormularioEquipos> {
   guardar() {
     if (_form.currentState!.validate()) {
       if (widget.id != 0) {
-        print("Se ha actualizado un registro");
-
         Equipo equipo = Equipo(
             widget.id,
-            widget.nombre,
-            widget.categoria,
-            widget.anioFundacion,
-            widget.zona,
-            widget.colorLocal,
-            widget.colorVisitante,
+            _nombre.text,
+            int.parse(_categoria.text),
+            _anioFundacion.text,
+            _zona.text,
+            _colorLocal.text,
+            _colorVisitante.text,
             1);
 
-        /*EquiposAPI().editar(equipo).then((res) {
-            if (res == "OK") {
-              //Añadir snackbar de exito
-            } else if (res == "ERROR") {
-              // Añadir snackbar de error
-            }
-          });*/
-      } else {
-        print("Se ha guardado un nuevo registro");
-        Equipo equipo = Equipo(
-            widget.id,
-            widget.nombre,
-            widget.categoria,
-            widget.anioFundacion,
-            widget.zona,
-            widget.colorLocal,
-            widget.colorVisitante,
-            1);
-
-        /*String res = EquiposAPI().agregar(equipo).toString();
-
+        EquiposAPI().editar(equipo).then((res) {
           if (res == "OK") {
-            //Añadir snackbar de exito
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text("Se ha actualizado un equipo",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                backgroundColor: Colors.green,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0))));
+            Navigator.pop(context);
           } else if (res == "ERROR") {
-            // Añadir snackbar de error
-          }*/
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text(
+                    "Ha ocurrido un error al actualizar un equipo",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                backgroundColor: Colors.red,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0))));
+            Navigator.pop(context);
+          }
+        });
+      } else {
+        Equipo equipo = Equipo(
+            widget.id,
+            _nombre.text,
+            int.parse(_categoria.text),
+            _anioFundacion.text,
+            _zona.text,
+            _colorLocal.text,
+            _colorVisitante.text,
+            1);
+
+        EquiposAPI().agregar(equipo).then((res) {
+          if (res == "OK") {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text("Se ha registrado un equipo",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                backgroundColor: Colors.green,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0))));
+            Navigator.pop(context);
+          } else if (res == "ERROR") {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text(
+                    "Ha ocurrido un error al registrar un equipo",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                backgroundColor: Colors.red,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0))));
+            Navigator.pop(context);
+          }
+        });
       }
     }
   }
@@ -204,7 +231,9 @@ class _FormularioEquiposState extends State<FormularioEquipos> {
               ElevatedButton(
                   style:
                       ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                  onPressed: () => guardar(),
+                  onPressed: () {
+                    guardar();
+                  },
                   child: const Text("Guardar"))
             ],
           )

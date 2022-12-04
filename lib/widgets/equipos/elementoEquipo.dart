@@ -12,6 +12,7 @@ class ElementoEquipo extends StatefulWidget {
   final String ColorLocal;
   final String ColorVisitante;
   final int Estatus;
+  final Function formulario;
   const ElementoEquipo(
       {Key? key,
       required this.Nombre,
@@ -21,7 +22,8 @@ class ElementoEquipo extends StatefulWidget {
       required this.Zona,
       required this.ColorLocal,
       required this.ColorVisitante,
-      required this.Estatus})
+      required this.Estatus,
+      required this.formulario})
       : super(key: key);
 
   @override
@@ -172,7 +174,14 @@ class _ElementoEquipoState extends State<ElementoEquipo> {
                           color: Colors.green,
                         )),
               IconButton(
-                  onPressed: () => _formularioEquipo(),
+                  onPressed: () => widget.formulario(
+                      widget.Id,
+                      widget.Nombre,
+                      widget.AnioFundacion,
+                      widget.Categoria,
+                      widget.ColorLocal,
+                      widget.ColorVisitante,
+                      widget.Zona),
                   icon: const Icon(
                     Icons.edit,
                     color: Colors.blue,

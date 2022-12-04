@@ -5,7 +5,7 @@ import 'package:undermatch_app/models/equipo.dart';
 
 class EquiposAPI {
   final String urlBase =
-      "https://9aaf-2806-2f0-6000-f28d-4079-44ea-70da-56df.ngrok.io";
+      "https://35e9-2806-2f0-6000-f28d-4079-44ea-70da-56df.ngrok.io";
 
   Future<List<Equipo>> getList() async {
     var url = Uri.parse('$urlBase/api/tblEquipos');

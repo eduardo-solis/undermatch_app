@@ -20,6 +20,10 @@ class _EquiposInicioState extends State<EquiposInicio> {
   @override
   void initState() {
     super.initState();
+    obtenerEquipos();
+  }
+
+  obtenerEquipos() {
     equipos = EquiposAPI().getList();
     equiposFiltrados = equipos.then((value) => value);
   }
@@ -36,7 +40,8 @@ class _EquiposInicioState extends State<EquiposInicio> {
           Zona: equipo.zona,
           ColorLocal: equipo.colorLocal,
           ColorVisitante: equipo.colorVisitante,
-          Estatus: equipo.estatus));
+          Estatus: equipo.estatus,
+          formulario: _formularioEquipos));
     }
 
     return equipos;
@@ -75,20 +80,25 @@ class _EquiposInicioState extends State<EquiposInicio> {
     setState(() {});
   }
 
-  Future<void> _formularioEquipos() async {
+  Future<void> _formularioEquipos(int id, String nombre, String anio,
+      int categoria, String colorL, String colorV, String zona) async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return const FormularioEquipos(
-            id: 0,
-            nombre: "",
-            anioFundacion: "",
-            categoria: 0,
-            colorLocal: "",
-            colorVisitante: "",
-            zona: "",
+          return FormularioEquipos(
+            id: id,
+            nombre: nombre,
+            anioFundacion: anio,
+            categoria: categoria,
+            colorLocal: colorL,
+            colorVisitante: colorV,
+            zona: zona,
           );
-        });
+        }).then((value) {
+      setState(() {
+        obtenerEquipos();
+      });
+    });
   }
 
   @override
@@ -168,7 +178,7 @@ class _EquiposInicioState extends State<EquiposInicio> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Agregar"),
         splashColor: Colors.amber,
-        onPressed: () => _formularioEquipos(),
+        onPressed: () => _formularioEquipos(0, "", "", 0, "", "", ""),
       ),
     );
   }
