@@ -64,7 +64,7 @@ class EquiposAPI {
 
   Future<String> editar(Equipo e) async {
     try {
-      int id = e.id;
+      int id = e.idEquipo;
       String nombre = e.nombre;
       int categoria = e.categoria;
       String zona = e.zona;

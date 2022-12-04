@@ -34,7 +34,7 @@ class _EquiposInicioState extends State<EquiposInicio> {
     for (var equipo in data) {
       equipos.add(ElementoEquipo(
           Nombre: equipo.nombre,
-          Id: equipo.id,
+          Id: equipo.idEquipo,
           Categoria: equipo.categoria,
           AnioFundacion: equipo.anioFundacion,
           Zona: equipo.zona,
