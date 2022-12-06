@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract class Routes {
+  static const URL = "http://localhost:81";
+
   static const INICIO = "/inicio";
 
   static const EQUIPOS = "/equipos";

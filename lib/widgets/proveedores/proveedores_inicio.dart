@@ -1,70 +1,76 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/equipos_api.dart';
-import 'package:undermatch_app/models/equipo.dart';
-import 'package:undermatch_app/widgets/equipos/elementoEquipo.dart';
-import 'package:undermatch_app/widgets/equipos/formularioEquipos.dart';
+import 'package:undermatch_app/api/proveedor_api.dart';
+import 'package:undermatch_app/models/proveedor.dart';
+import 'package:undermatch_app/widgets/proveedores/elementoProveedor.dart';
+import 'package:undermatch_app/widgets/proveedores/formularioProveedores.dart';
 
-class EquiposInicio extends StatefulWidget {
-  const EquiposInicio({Key? key}) : super(key: key);
+class ProveedoresInicio extends StatefulWidget {
+  const ProveedoresInicio({Key? key}) : super(key: key);
 
   @override
-  State<EquiposInicio> createState() => _EquiposInicioState();
+  State<ProveedoresInicio> createState() => _ProveedoresInicioState();
 }
 
-class _EquiposInicioState extends State<EquiposInicio> {
-  late Future<List<Equipo>> equipos;
-  late Future<List<Equipo>> equiposFiltrados;
+class _ProveedoresInicioState extends State<ProveedoresInicio> {
+  late Future<List<Proveedor>> proveedores;
+  late Future<List<Proveedor>> proveedoresFiltrados;
   bool buscando = false;
   final TextEditingController _textoABuscar = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    obtenerEquipos();
+    obtenerProveedores();
   }
 
-  obtenerEquipos() {
-    equipos = EquiposAPI().getList();
-    equiposFiltrados = equipos.then((value) => value);
+  obtenerProveedores() {
+    proveedores = ProveedorAPI().getList();
+    proveedoresFiltrados = proveedores.then((value) => value);
   }
 
-  List<Widget> _listaEquipos(List<Equipo> data) {
-    List<Widget> equipos = [];
+  List<Widget> _listaProveedores(List<Proveedor> data) {
+    List<Widget> proveedores = [];
 
-    for (var equipo in data) {
-      equipos.add(ElementoEquipo(
-          Nombre: equipo.nombre,
-          Id: equipo.idEquipo,
-          Categoria: equipo.categoria,
-          AnioFundacion: equipo.anioFundacion,
-          Zona: equipo.zona,
-          ColorLocal: equipo.colorLocal,
-          ColorVisitante: equipo.colorVisitante,
-          Estatus: equipo.estatus,
-          formulario: _formularioEquipos));
+    for (var proveedor in data) {
+      proveedores.add(ElementoProveedor(
+          Estatus: proveedor.Estatus,
+          formulario: _formularioProveedor,
+          idProveedor: proveedor.idProveedor,
+          rfc: proveedor.rfc,
+          nombre: proveedor.nombre,
+          razonSocial: proveedor.razonSocial,
+          calle: proveedor.calle,
+          numero: proveedor.numero,
+          colonia: proveedor.colonia,
+          codigoPostal: proveedor.codigoPostal,
+          idMunicipio: proveedor.idMunicipio,
+          idTipoProveedor: proveedor.idTipoProveedor,
+          correo: proveedor.correo,
+          telefono: proveedor.telefono,
+          idPanel: proveedor.idPanel));
     }
 
-    return equipos;
+    return proveedores;
   }
 
   buscar() {
     if (_textoABuscar.text.length != 0) {
-      equiposFiltrados = equipos.then((value) {
+      proveedoresFiltrados = proveedores.then((value) {
         String aux = _textoABuscar.text.toLowerCase();
-        List<Equipo> auxEquipos = [];
+        List<Proveedor> auxProveedor = [];
         for (var element in value) {
           if (element.nombre.toLowerCase().contains(aux)) {
-            auxEquipos.add(element);
+            auxProveedor.add(element);
           }
         }
-        return auxEquipos;
+        return auxProveedor;
       });
 
       buscando = true;
       setState(() {});
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text("Ingrese el nombre del equipo a buscar",
+          content: const Text("Ingrese el nombre del proveedor a buscar",
               style: TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.amber,
           behavior: SnackBarBehavior.floating,
@@ -74,29 +80,47 @@ class _EquiposInicioState extends State<EquiposInicio> {
   }
 
   limpiar() {
-    equiposFiltrados = equipos;
+    proveedoresFiltrados = proveedores;
     _textoABuscar.text = "";
     buscando = false;
     setState(() {});
   }
 
-  Future<void> _formularioEquipos(int id, String nombre, String anio,
-      int categoria, String colorL, String colorV, String zona) async {
+  Future<void> _formularioProveedor(
+      int idProveedor,
+      int idMunicipio,
+      int idPanel,
+      int idTipoProveedor,
+      String nombre,
+      String numero,
+      String calle,
+      String codigoPostal,
+      String colonia,
+      String correo,
+      String razonSocial,
+      String rfc,
+      String telefono) async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return FormularioEquipos(
-            id: id,
+          return FormularioProveedor(
+            idProveedor: idProveedor,
+            idMunicipio: idMunicipio,
+            idPanel: idPanel,
+            idTipoProveedor: idTipoProveedor,
             nombre: nombre,
-            anioFundacion: anio,
-            categoria: categoria,
-            colorLocal: colorL,
-            colorVisitante: colorV,
-            zona: zona,
+            numero: numero,
+            calle: calle,
+            codigoPostal: codigoPostal,
+            colonia: colonia,
+            correo: correo,
+            razonSocial: razonSocial,
+            rfc: rfc,
+            telefono: telefono,
           );
         }).then((value) {
       setState(() {
-        obtenerEquipos();
+        obtenerProveedores();
       });
     });
   }
@@ -105,7 +129,7 @@ class _EquiposInicioState extends State<EquiposInicio> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Equipos"),
+        title: const Text("Proveedores"),
         centerTitle: true,
         elevation: 0,
       ),
@@ -148,7 +172,7 @@ class _EquiposInicioState extends State<EquiposInicio> {
                 ),
 
                 FutureBuilder(
-                  future: equiposFiltrados,
+                  future: proveedoresFiltrados,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data!.isEmpty) {
@@ -160,8 +184,8 @@ class _EquiposInicioState extends State<EquiposInicio> {
                       } else {
                         return ListView(
                           shrinkWrap: true,
-                          children:
-                              _listaEquipos(snapshot.data as List<Equipo>),
+                          children: _listaProveedores(
+                              snapshot.data as List<Proveedor>),
                         );
                       }
                     } else if (snapshot.hasError) {
@@ -178,7 +202,8 @@ class _EquiposInicioState extends State<EquiposInicio> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Agregar"),
         splashColor: Colors.amber,
-        onPressed: () => _formularioEquipos(0, "", "", 0, "", "", ""),
+        onPressed: () => _formularioProveedor(
+            0, 0, 0, 0, "", "", "", "", "", "", "", "", ""),
       ),
     );
   }

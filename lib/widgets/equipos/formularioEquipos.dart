@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/equiposAPI.dart';
+import 'package:undermatch_app/api/ctgCategorias_api.dart';
+import 'package:undermatch_app/api/equipos_api.dart';
 import 'package:undermatch_app/models/equipo.dart';
 
 class FormularioEquipos extends StatefulWidget {
@@ -36,13 +37,20 @@ class _FormularioEquiposState extends State<FormularioEquipos> {
   final TextEditingController _colorLocal = TextEditingController();
   final TextEditingController _colorVisitante = TextEditingController();
 
+  String _idCategoria = "1";
+  List<DropdownMenuItem<String>> listaCategorias = [
+    const DropdownMenuItem<String>(value: "1", child: Text("Juvenil")),
+    const DropdownMenuItem<String>(value: "2", child: Text("Infantil")),
+    const DropdownMenuItem<String>(value: "3", child: Text("Libre")),
+  ];
+
   guardar() {
     if (_form.currentState!.validate()) {
       if (widget.id != 0) {
         Equipo equipo = Equipo(
             widget.id,
             _nombre.text,
-            int.parse(_categoria.text),
+            int.parse(_idCategoria),
             _anioFundacion.text,
             _zona.text,
             _colorLocal.text,
@@ -75,7 +83,7 @@ class _FormularioEquiposState extends State<FormularioEquipos> {
         Equipo equipo = Equipo(
             widget.id,
             _nombre.text,
-            int.parse(_categoria.text),
+            int.parse(_idCategoria),
             _anioFundacion.text,
             _zona.text,
             _colorLocal.text,
@@ -119,6 +127,7 @@ class _FormularioEquiposState extends State<FormularioEquipos> {
     _zona.text = widget.zona;
     _colorLocal.text = widget.colorLocal;
     _colorVisitante.text = widget.colorVisitante;
+    _idCategoria = widget.categoria.toString();
   }
 
   @override
@@ -142,24 +151,13 @@ class _FormularioEquiposState extends State<FormularioEquipos> {
               }
             },
           ),
-          TextFormField(
-            decoration: const InputDecoration(
-              label: Text("Categoría"),
-            ),
-            controller: _categoria,
-            keyboardType: TextInputType.number,
-            validator: (value) {
-              String dato = value.toString();
-
-              if (dato.startsWith("0")) {
-                return "Este campo no puede contener un 0 al inicio";
-              }
-              if (dato.contains(",") ||
-                  dato.contains(".") ||
-                  dato.contains(" ") ||
-                  dato.contains("-")) {
-                return "No es permitido ingresar , . - o espacios en blanco";
-              }
+          const Text("Categorias"),
+          DropdownButton(
+            value: _idCategoria,
+            items: listaCategorias,
+            onChanged: (String? value) {
+              _idCategoria = value!;
+              setState(() {});
             },
           ),
           TextFormField(

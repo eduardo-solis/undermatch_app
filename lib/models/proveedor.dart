@@ -12,6 +12,7 @@ class Proveedor {
   late String correo;
   late String telefono;
   late int idPanel;
+  late int Estatus;
 
   Proveedor(
       this.idProveedor,
@@ -26,5 +27,6 @@ class Proveedor {
       this.idTipoProveedor,
       this.correo,
       this.telefono,
-      this.idPanel);
+      this.idPanel,
+      this.Estatus);
 }

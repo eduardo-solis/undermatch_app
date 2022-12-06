@@ -1,50 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/equipos_api.dart';
-import 'package:undermatch_app/widgets/equipos/formularioEquipos.dart';
+import 'package:undermatch_app/api/proveedor_api.dart';
+import 'package:undermatch_app/widgets/proveedores/formularioProveedores.dart';
 import 'package:undermatch_app/widgets/validacionCambio.dart';
 
-class ElementoEquipo extends StatefulWidget {
-  final int Id;
-  final String Nombre;
-  final int Categoria;
-  final String AnioFundacion;
-  final String Zona;
-  final String ColorLocal;
-  final String ColorVisitante;
+class ElementoProveedor extends StatefulWidget {
+  final int idProveedor;
+  final String rfc;
+  final String nombre;
+  final String razonSocial;
+  final String calle;
+  final String numero;
+  final String colonia;
+  final String codigoPostal;
+  final int idMunicipio;
+  final int idTipoProveedor;
+  final String correo;
+  final String telefono;
+  final int idPanel;
   final int Estatus;
   final Function formulario;
-  const ElementoEquipo(
+
+  const ElementoProveedor(
       {Key? key,
-      required this.Nombre,
-      required this.Id,
-      required this.Categoria,
-      required this.AnioFundacion,
-      required this.Zona,
-      required this.ColorLocal,
-      required this.ColorVisitante,
       required this.Estatus,
-      required this.formulario})
+      required this.formulario,
+      required this.idProveedor,
+      required this.rfc,
+      required this.nombre,
+      required this.razonSocial,
+      required this.calle,
+      required this.numero,
+      required this.colonia,
+      required this.codigoPostal,
+      required this.idMunicipio,
+      required this.idTipoProveedor,
+      required this.correo,
+      required this.telefono,
+      required this.idPanel})
       : super(key: key);
 
   @override
-  State<ElementoEquipo> createState() => _ElementoEquipoState();
+  State<ElementoProveedor> createState() => _ElementoProveedorState();
 }
 
-class _ElementoEquipoState extends State<ElementoEquipo> {
-  late int estatusEquipo;
+class _ElementoProveedorState extends State<ElementoProveedor> {
+  late int estatusProveedor;
 
-  Future<void> _formularioEquipo() async {
+  Future<void> _formularioProveedor() async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return FormularioEquipos(
-            id: widget.Id,
-            nombre: widget.Nombre,
-            anioFundacion: widget.AnioFundacion,
-            categoria: widget.Categoria,
-            colorLocal: widget.ColorLocal,
-            colorVisitante: widget.ColorVisitante,
-            zona: widget.Zona,
+          return FormularioProveedor(
+            idProveedor: widget.idProveedor,
+            idMunicipio: widget.idMunicipio,
+            idPanel: widget.idPanel,
+            idTipoProveedor: widget.idTipoProveedor,
+            nombre: widget.nombre,
+            numero: widget.numero,
+            calle: widget.calle,
+            codigoPostal: widget.codigoPostal,
+            colonia: widget.colonia,
+            correo: widget.correo,
+            razonSocial: widget.razonSocial,
+            rfc: widget.rfc,
+            telefono: widget.telefono,
           );
         });
   }
@@ -54,19 +73,19 @@ class _ElementoEquipoState extends State<ElementoEquipo> {
       context: context,
       builder: (context) {
         return ValidacionCambio(
-            titulo: "Guardar cambios", accion: accion, modulo: "Equipo");
+            titulo: "Guardar cambios", accion: accion, modulo: "Proveedor");
       },
     );
   }
 
   eliminar() {
-    EquiposAPI().eliminar(widget.Id).then((res) {
+    ProveedorAPI().eliminar(widget.idProveedor).then((res) {
       if (res == "OK") {
         setState(() {
-          estatusEquipo = 0;
+          estatusProveedor = 0;
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text("Se ha desactivado un equipo",
+            content: const Text("Se ha desactivado un proveedor",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
@@ -74,7 +93,8 @@ class _ElementoEquipoState extends State<ElementoEquipo> {
                 borderRadius: BorderRadius.circular(10.0))));
       } else if (res == "ERROR") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text("Ha ocurrido un error al desactivar un equipo",
+            content: const Text(
+                "Ha ocurrido un error al desactivar un proveedor",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
@@ -85,13 +105,13 @@ class _ElementoEquipoState extends State<ElementoEquipo> {
   }
 
   activar() {
-    EquiposAPI().activar(widget.Id).then((res) {
+    ProveedorAPI().activar(widget.idProveedor).then((res) {
       if (res == "OK") {
         setState(() {
-          estatusEquipo = 1;
+          estatusProveedor = 1;
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text("Se ha activado un equipo",
+            content: const Text("Se ha activado un proveedor",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
@@ -99,7 +119,7 @@ class _ElementoEquipoState extends State<ElementoEquipo> {
                 borderRadius: BorderRadius.circular(10.0))));
       } else if (res == "ERROR") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text("Ha ocurrido un error al activar un equipo",
+            content: const Text("Ha ocurrido un error al activar un proveedor",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
@@ -110,9 +130,9 @@ class _ElementoEquipoState extends State<ElementoEquipo> {
   }
 
   hacerCambio() {
-    if (estatusEquipo == 0) {
+    if (estatusProveedor == 0) {
       _validarCambio(activar);
-    } else if (estatusEquipo == 1) {
+    } else if (estatusProveedor == 1) {
       _validarCambio(eliminar);
     }
   }
@@ -121,7 +141,7 @@ class _ElementoEquipoState extends State<ElementoEquipo> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    estatusEquipo = widget.Estatus;
+    estatusProveedor = widget.Estatus;
   }
 
   @override
@@ -155,16 +175,16 @@ class _ElementoEquipoState extends State<ElementoEquipo> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Nombre: ${widget.Nombre}"),
-              Text("Zona: ${widget.Zona}"),
-              Text("Año de Fundación: ${widget.AnioFundacion}"),
+              Text("Nombre: ${widget.nombre}"),
+              Text("Razón Social: ${widget.razonSocial}"),
+              Text("Telefono: ${widget.telefono}"),
             ],
           ),
           Row(
             children: [
               IconButton(
                   onPressed: () => hacerCambio(),
-                  icon: estatusEquipo == 0
+                  icon: estatusProveedor == 0
                       ? const Icon(
                           Icons.toggle_off,
                           color: Colors.red,
@@ -175,13 +195,20 @@ class _ElementoEquipoState extends State<ElementoEquipo> {
                         )),
               IconButton(
                   onPressed: () => widget.formulario(
-                      widget.Id,
-                      widget.Nombre,
-                      widget.AnioFundacion,
-                      widget.Categoria,
-                      widget.ColorLocal,
-                      widget.ColorVisitante,
-                      widget.Zona),
+                        widget.idProveedor,
+                        widget.idMunicipio,
+                        widget.idPanel,
+                        widget.idTipoProveedor,
+                        widget.nombre,
+                        widget.numero,
+                        widget.calle,
+                        widget.codigoPostal,
+                        widget.colonia,
+                        widget.correo,
+                        widget.razonSocial,
+                        widget.rfc,
+                        widget.telefono,
+                      ),
                   icon: const Icon(
                     Icons.edit,
                     color: Colors.blue,

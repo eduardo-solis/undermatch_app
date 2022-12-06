@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:undermatch_app/models/equipo.dart';
+import 'package:undermatch_app/routes/routes.dart';
 
 class EquiposAPI {
-  final String urlBase =
-      "https://35e9-2806-2f0-6000-f28d-4079-44ea-70da-56df.ngrok.io";
+  final String urlBase = Routes.URL;
 
   Future<List<Equipo>> getList() async {
     var url = Uri.parse('$urlBase/api/tblEquipos');
@@ -35,7 +35,7 @@ class EquiposAPI {
         return [];
       }
     } catch (e) {
-      print(e);
+      //print(e);
       return [];
     }
   }
