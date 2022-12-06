@@ -204,8 +204,8 @@ class _JugadoresInicioState extends State<JugadoresInicio> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Agregar"),
         splashColor: Colors.amber,
-        onPressed: () => _formularioJugador(
-            0, 0, "", "", "", "", "", "", "", "", "", "", ""),
+        onPressed: () => _formularioJugador(0, 0, "", "", "01-01-2000", "",
+            "Delantero", "", "", "Hombre", "", "", ""),
       ),
     );
   }

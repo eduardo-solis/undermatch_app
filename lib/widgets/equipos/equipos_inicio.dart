@@ -178,7 +178,7 @@ class _EquiposInicioState extends State<EquiposInicio> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Agregar"),
         splashColor: Colors.amber,
-        onPressed: () => _formularioEquipos(0, "", "", 0, "", "", ""),
+        onPressed: () => _formularioEquipos(0, "", "", 1, "", "", ""),
       ),
     );
   }

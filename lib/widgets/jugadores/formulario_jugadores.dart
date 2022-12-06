@@ -58,25 +58,13 @@ class _FormularioJugadorState extends State<FormularioJugador> {
   ];
 
   String _dia = "01";
-  List<DropdownMenuItem<String>> comboDia = [
-    const DropdownMenuItem<String>(value: "01", child: Text("01")),
-    const DropdownMenuItem<String>(value: "02", child: Text("02")),
-    const DropdownMenuItem<String>(value: "03", child: Text("03")),
-  ];
+  List<DropdownMenuItem<String>> comboDia = [];
 
   String _mes = "01";
-  List<DropdownMenuItem<String>> comboMes = [
-    const DropdownMenuItem<String>(value: "01", child: Text("01")),
-    const DropdownMenuItem<String>(value: "02", child: Text("02")),
-    const DropdownMenuItem<String>(value: "03", child: Text("03")),
-  ];
+  List<DropdownMenuItem<String>> comboMes = [];
 
   String _anio = "2000";
-  List<DropdownMenuItem<String>> comboAnio = [
-    const DropdownMenuItem<String>(value: "2000", child: Text("2000")),
-    const DropdownMenuItem<String>(value: "2001", child: Text("2001")),
-    const DropdownMenuItem<String>(value: "2002", child: Text("2002")),
-  ];
+  List<DropdownMenuItem<String>> comboAnio = [];
 
   String _posicion = "Delantero";
   List<DropdownMenuItem<String>> comboPosicion = [
@@ -174,12 +162,31 @@ class _FormularioJugadorState extends State<FormularioJugador> {
     _posicion = widget.posicion;
     _sexo = widget.sexo;
     asignarFecha();
+    comboDia = List.generate(31, (index) {
+      int num = index + 1;
+      String dia = num < 10 ? '0$num' : '$num';
+
+      return DropdownMenuItem<String>(value: dia, child: Text(dia));
+    });
+
+    comboMes = List.generate(12, (index) {
+      int num = index + 1;
+      String mes = num < 10 ? '0$num' : '$num';
+
+      return DropdownMenuItem<String>(value: mes, child: Text(mes));
+    });
+
+    comboAnio = List.generate(123, (index) {
+      int num = index + 1900;
+      String anio = '$num';
+
+      return DropdownMenuItem<String>(value: anio, child: Text(anio));
+    });
   }
 
   asignarFecha() {
     String fecha = widget.fechaNacimiento;
     final fechaSplit = fecha.split("-");
-
     _dia = fechaSplit[0];
     _mes = fechaSplit[1];
     _anio = fechaSplit[2];
@@ -299,13 +306,6 @@ class _FormularioJugadorState extends State<FormularioJugador> {
           ),
           TextFormField(
             decoration: const InputDecoration(
-              label: Text("Telefono2"),
-            ),
-            controller: _telefono,
-            keyboardType: TextInputType.phone,
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
               label: Text("Correo"),
             ),
             controller: _correo,
@@ -323,19 +323,6 @@ class _FormularioJugadorState extends State<FormularioJugador> {
               label: Text("Número de dorsal"),
             ),
             controller: _numDorsal,
-            validator: (value) {
-              String dato = value.toString();
-
-              if (dato == "") {
-                return "Este campo es obligatorio";
-              }
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              label: Text("Nombre"),
-            ),
-            controller: _nombre,
             validator: (value) {
               String dato = value.toString();
 

@@ -17,6 +17,7 @@ class JugadorAPI {
       if (response.statusCode == 200) {
         String body = utf8.decode(response.bodyBytes);
         final jsonData = jsonDecode(body);
+        print(jsonData);
         for (var element in jsonData) {
           jugadores.add(Jugador(
               element["IdPersona"],
@@ -27,7 +28,7 @@ class JugadorAPI {
               element["FechaNacimiento"],
               element["Sexo"],
               element["Telefono"],
-              element["Telefono2"],
+              "1",
               element["Correo"],
               element["NumDorsal"],
               element["SobreNombre"],
@@ -44,7 +45,7 @@ class JugadorAPI {
 
   Future<String> agregar(Jugador j) async {
     var url = Uri.parse(
-        '$urlBase/api/tblJugadores?nombre=${j.nombre}&primerApellido=${j.primerApellido}&segundoApellido=${j.segundoApellido}&fechaNacimiento=${j.fechaNacimiento}&sexo=${j.sexo}&telefono=${j.telefono}&telefono2=${j.telefono2}&correo=${j.correo}&numDorsal=${j.numDorsal}&sobreNombre=${j.sobreNombre}&posicion=${j.posicion}&capitan=${j.capitan}');
+        '$urlBase/api/tblJugadores?nombre=${j.nombre}&primerApellido=${j.primerApellido}&segundoApellido=${j.segundoApellido}&fechaNacimiento=${j.fechaNacimiento}&sexo=${j.sexo}&telefono=${j.telefono}&telefono2=1&correo=${j.correo}&numDorsal=${j.numDorsal}&sobreNombre=${j.sobreNombre}&posicion=${j.posicion}&capitan=${j.capitan}');
 
     try {
       final response = await http.post(url);
@@ -61,7 +62,7 @@ class JugadorAPI {
 
   Future<String> editar(Jugador j) async {
     var url = Uri.parse(
-        '$urlBase/api/tblJugadores?idPersona=${j.idPersona}&idJugador=${j.idJugador}&nombre=${j.nombre}&primerApellido=${j.primerApellido}&segundoApellido=${j.segundoApellido}&fechaNacimiento=${j.fechaNacimiento}&sexo=${j.sexo}&telefono=${j.telefono}&telefono2=${j.telefono2}&correo=${j.correo}&numDorsal=${j.numDorsal}&sobreNombre=${j.sobreNombre}&posicion=${j.posicion}&capitan=${j.capitan}');
+        '$urlBase/api/tblJugadores?idPersona=${j.idPersona}&idJugador=${j.idJugador}&nombre=${j.nombre}&primerApellido=${j.primerApellido}&segundoApellido=${j.segundoApellido}&fechaNacimiento=${j.fechaNacimiento}&sexo=${j.sexo}&telefono=${j.telefono}&telefono2=1&correo=${j.correo}&numDorsal=${j.numDorsal}&sobreNombre=${j.sobreNombre}&posicion=${j.posicion}&capitan=${j.capitan}');
 
     try {
       final response = await http.put(url);
