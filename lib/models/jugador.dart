@@ -13,6 +13,7 @@ class Jugador {
   late String sobreNombre;
   late String posicion;
   late int capitan;
+  late int estatus;
 
   Jugador(
       this.idPersona,
@@ -28,5 +29,6 @@ class Jugador {
       this.numDorsal,
       this.sobreNombre,
       this.posicion,
-      this.capitan);
+      this.capitan,
+      this.estatus);
 }

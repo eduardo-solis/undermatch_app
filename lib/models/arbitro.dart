@@ -12,6 +12,7 @@ class Arbitro {
   late double costoArbitraje;
   late int idCategoria;
   late int idTipoArbotro;
+  late int estatus;
 
   Arbitro(
       this.idPersona,
@@ -26,5 +27,6 @@ class Arbitro {
       this.correo,
       this.costoArbitraje,
       this.idCategoria,
-      this.idTipoArbotro);
+      this.idTipoArbotro,
+      this.estatus);
 }

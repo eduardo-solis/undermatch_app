@@ -20,6 +20,7 @@ class Empleado {
   late String nssE;
   late double salarioE;
   late String horarioE;
+  late int estatus;
 
   Empleado(
       this.idPersona,
@@ -42,5 +43,6 @@ class Empleado {
       this.rfcE,
       this.nssE,
       this.salarioE,
-      this.horarioE);
+      this.horarioE,
+      this.estatus);
 }
