@@ -75,7 +75,7 @@ class EmpleadoAPI {
         '$urlBase/api/tblEmpleados?idPersona=${e.idPersona}&nombre=${e.nombre}&primerApellido=${e.primerApellido}&segundoApellido=${e.segundoApellido}&fechaNacimiento=${e.fechaNacimiento}&sexo=${e.sexo}&telefono=${e.telefono}&telefono2=${e.telefono2}&correo=${e.correo}&idEmpleado=${e.idEmpleado}&calleE=${e.calleE}&numeroE=${e.numeroE}&coloniaE=${e.coloniaE}&codigoPostalE=${e.codigoPostalE}&idMunicipioE=${e.idMunicipioE}&curpe=${e.curpe}&tipoEmpleado=${e.tipoEmpleado}&rfcE=${e.rfcE}&nssE=${e.nssE}&salarioE=${e.salarioE}&horarioE=${e.horarioE}');
 
     try {
-      final response = await http.post(url);
+      final response = await http.put(url);
 
       if (response.statusCode == 204) {
         return "OK";
