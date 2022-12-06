@@ -4,14 +4,14 @@ import 'package:undermatch_app/models/proveedor.dart';
 import 'package:undermatch_app/widgets/proveedores/elementoProveedor.dart';
 import 'package:undermatch_app/widgets/proveedores/formularioProveedores.dart';
 
-class ProveedoresInicio extends StatefulWidget {
-  const ProveedoresInicio({Key? key}) : super(key: key);
+class JugadoresInicio extends StatefulWidget {
+  const JugadoresInicio({Key? key}) : super(key: key);
 
   @override
-  State<ProveedoresInicio> createState() => _ProveedoresInicioState();
+  State<JugadoresInicio> createState() => _JugadoresInicioState();
 }
 
-class _ProveedoresInicioState extends State<ProveedoresInicio> {
+class _JugadoresInicioState extends State<JugadoresInicio> {
   late Future<List<Proveedor>> proveedores;
   late Future<List<Proveedor>> proveedoresFiltrados;
   bool buscando = false;

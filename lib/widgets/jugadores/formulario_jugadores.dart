@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:undermatch_app/api/proveedor_api.dart';
 import 'package:undermatch_app/models/proveedor.dart';
 
-class FormularioProveedor extends StatefulWidget {
+class FormularioJugador extends StatefulWidget {
   final int idProveedor;
   final String rfc;
   final String nombre;
@@ -17,7 +17,7 @@ class FormularioProveedor extends StatefulWidget {
   final String telefono;
   final int idPanel; //
 
-  const FormularioProveedor({
+  const FormularioJugador({
     Key? key,
     required this.idProveedor,
     required this.rfc,
@@ -35,10 +35,10 @@ class FormularioProveedor extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<FormularioProveedor> createState() => _FormularioProveedorState();
+  State<FormularioJugador> createState() => _FormularioJugadorState();
 }
 
-class _FormularioProveedorState extends State<FormularioProveedor> {
+class _FormularioJugadorState extends State<FormularioJugador> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   final TextEditingController _rfc = TextEditingController();

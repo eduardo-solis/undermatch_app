@@ -3,7 +3,7 @@ import 'package:undermatch_app/api/proveedor_api.dart';
 import 'package:undermatch_app/widgets/proveedores/formularioProveedores.dart';
 import 'package:undermatch_app/widgets/validacionCambio.dart';
 
-class ElementoProveedor extends StatefulWidget {
+class ElementoJugador extends StatefulWidget {
   final int idProveedor;
   final String rfc;
   final String nombre;
@@ -20,7 +20,7 @@ class ElementoProveedor extends StatefulWidget {
   final int Estatus;
   final Function formulario;
 
-  const ElementoProveedor(
+  const ElementoJugador(
       {Key? key,
       required this.Estatus,
       required this.formulario,
@@ -40,10 +40,10 @@ class ElementoProveedor extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<ElementoProveedor> createState() => _ElementoProveedorState();
+  State<ElementoJugador> createState() => _ElementoJugadorState();
 }
 
-class _ElementoProveedorState extends State<ElementoProveedor> {
+class _ElementoJugadorState extends State<ElementoJugador> {
   late int estatusProveedor;
 
   Future<void> _formularioProveedor() async {
