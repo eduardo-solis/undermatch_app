@@ -33,7 +33,8 @@ class ArbitroAPI {
               element["Correo"],
               element["CostoArbitraje"],
               element["IdCategoria"],
-              element["IdTipoArbitro"]));
+              element["IdTipoArbitro"],
+              element["Estatus"]));
         }
 
         return arbitros;
