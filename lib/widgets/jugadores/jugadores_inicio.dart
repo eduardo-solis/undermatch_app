@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/proveedor_api.dart';
-import 'package:undermatch_app/models/proveedor.dart';
-import 'package:undermatch_app/widgets/proveedores/elementoProveedor.dart';
-import 'package:undermatch_app/widgets/proveedores/formularioProveedores.dart';
+import 'package:undermatch_app/api/jugador_api.dart';
+import 'package:undermatch_app/models/jugador.dart';
+import 'package:undermatch_app/widgets/jugadores/elemento_jugador.dart';
+
+import 'formulario_jugadores.dart';
 
 class JugadoresInicio extends StatefulWidget {
   const JugadoresInicio({Key? key}) : super(key: key);
@@ -12,65 +13,65 @@ class JugadoresInicio extends StatefulWidget {
 }
 
 class _JugadoresInicioState extends State<JugadoresInicio> {
-  late Future<List<Proveedor>> proveedores;
-  late Future<List<Proveedor>> proveedoresFiltrados;
+  late Future<List<Jugador>> jugadores;
+  late Future<List<Jugador>> jugadoresFiltrados;
   bool buscando = false;
   final TextEditingController _textoABuscar = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    obtenerProveedores();
+    obtenerJugadores();
   }
 
-  obtenerProveedores() {
-    proveedores = ProveedorAPI().getList();
-    proveedoresFiltrados = proveedores.then((value) => value);
+  obtenerJugadores() {
+    jugadores = JugadorAPI().getList();
+    jugadoresFiltrados = jugadores.then((value) => value);
   }
 
-  List<Widget> _listaProveedores(List<Proveedor> data) {
-    List<Widget> proveedores = [];
+  List<Widget> _listaJugadores(List<Jugador> data) {
+    List<Widget> jugadores = [];
 
-    for (var proveedor in data) {
-      proveedores.add(ElementoProveedor(
-          Estatus: proveedor.Estatus,
-          formulario: _formularioProveedor,
-          idProveedor: proveedor.idProveedor,
-          rfc: proveedor.rfc,
-          nombre: proveedor.nombre,
-          razonSocial: proveedor.razonSocial,
-          calle: proveedor.calle,
-          numero: proveedor.numero,
-          colonia: proveedor.colonia,
-          codigoPostal: proveedor.codigoPostal,
-          idMunicipio: proveedor.idMunicipio,
-          idTipoProveedor: proveedor.idTipoProveedor,
-          correo: proveedor.correo,
-          telefono: proveedor.telefono,
-          idPanel: proveedor.idPanel));
+    for (var jugador in data) {
+      jugadores.add(ElementoJugador(
+          formulario: _formularioJugador,
+          idPersona: jugador.idPersona,
+          idJugador: jugador.idJugador,
+          nombre: jugador.nombre,
+          primerApellido: jugador.primerApellido,
+          segundoApellido: jugador.segundoApellido,
+          fechaNacimiento: jugador.fechaNacimiento,
+          sexo: jugador.sexo,
+          telefono: jugador.telefono,
+          telefono2: jugador.telefono2,
+          correo: jugador.correo,
+          numDorsal: jugador.numDorsal,
+          sobreNombre: jugador.sobreNombre,
+          posicion: jugador.posicion,
+          estatus: jugador.estatus));
     }
 
-    return proveedores;
+    return jugadores;
   }
 
   buscar() {
     if (_textoABuscar.text.length != 0) {
-      proveedoresFiltrados = proveedores.then((value) {
+      jugadoresFiltrados = jugadores.then((value) {
         String aux = _textoABuscar.text.toLowerCase();
-        List<Proveedor> auxProveedor = [];
+        List<Jugador> auxJugador = [];
         for (var element in value) {
           if (element.nombre.toLowerCase().contains(aux)) {
-            auxProveedor.add(element);
+            auxJugador.add(element);
           }
         }
-        return auxProveedor;
+        return auxJugador;
       });
 
       buscando = true;
       setState(() {});
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text("Ingrese el nombre del proveedor a buscar",
+          content: const Text("Ingrese el nombre del jugador a buscar",
               style: TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.amber,
           behavior: SnackBarBehavior.floating,
@@ -80,47 +81,48 @@ class _JugadoresInicioState extends State<JugadoresInicio> {
   }
 
   limpiar() {
-    proveedoresFiltrados = proveedores;
+    jugadoresFiltrados = jugadores;
     _textoABuscar.text = "";
     buscando = false;
     setState(() {});
   }
 
-  Future<void> _formularioProveedor(
-      int idProveedor,
-      int idMunicipio,
-      int idPanel,
-      int idTipoProveedor,
-      String nombre,
-      String numero,
-      String calle,
-      String codigoPostal,
-      String colonia,
-      String correo,
-      String razonSocial,
-      String rfc,
-      String telefono) async {
+  Future<void> _formularioJugador(
+    int idPersona,
+    int idJugador,
+    String nombre,
+    String correo,
+    String fechaNacimiento,
+    String numDorsal,
+    String posicion,
+    String primerApellido,
+    String segundoApellido,
+    String sexo,
+    String sobreNombre,
+    String telefono2,
+    String telefono,
+  ) async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return FormularioProveedor(
-            idProveedor: idProveedor,
-            idMunicipio: idMunicipio,
-            idPanel: idPanel,
-            idTipoProveedor: idTipoProveedor,
+          return FormularioJugador(
+            idPersona: idPersona,
+            idJugador: idJugador,
             nombre: nombre,
-            numero: numero,
-            calle: calle,
-            codigoPostal: codigoPostal,
-            colonia: colonia,
             correo: correo,
-            razonSocial: razonSocial,
-            rfc: rfc,
+            fechaNacimiento: fechaNacimiento,
+            numDorsal: numDorsal,
+            posicion: posicion,
+            primerApellido: primerApellido,
+            segundoApellido: segundoApellido,
+            sexo: sexo,
+            sobreNombre: sobreNombre,
+            telefono2: telefono2,
             telefono: telefono,
           );
         }).then((value) {
       setState(() {
-        obtenerProveedores();
+        obtenerJugadores();
       });
     });
   }
@@ -129,7 +131,7 @@ class _JugadoresInicioState extends State<JugadoresInicio> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Proveedores"),
+        title: const Text("Jugadores"),
         centerTitle: true,
         elevation: 0,
       ),
@@ -172,7 +174,7 @@ class _JugadoresInicioState extends State<JugadoresInicio> {
                 ),
 
                 FutureBuilder(
-                  future: proveedoresFiltrados,
+                  future: jugadoresFiltrados,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data!.isEmpty) {
@@ -184,8 +186,8 @@ class _JugadoresInicioState extends State<JugadoresInicio> {
                       } else {
                         return ListView(
                           shrinkWrap: true,
-                          children: _listaProveedores(
-                              snapshot.data as List<Proveedor>),
+                          children:
+                              _listaJugadores(snapshot.data as List<Jugador>),
                         );
                       }
                     } else if (snapshot.hasError) {
@@ -202,8 +204,8 @@ class _JugadoresInicioState extends State<JugadoresInicio> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Agregar"),
         splashColor: Colors.amber,
-        onPressed: () => _formularioProveedor(
-            0, 0, 0, 0, "", "", "", "", "", "", "", "", ""),
+        onPressed: () => _formularioJugador(
+            0, 0, "", "", "", "", "", "", "", "", "", "", ""),
       ),
     );
   }

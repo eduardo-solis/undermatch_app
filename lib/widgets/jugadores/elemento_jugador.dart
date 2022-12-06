@@ -1,42 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/proveedor_api.dart';
-import 'package:undermatch_app/widgets/proveedores/formularioProveedores.dart';
+import 'package:undermatch_app/api/jugador_api.dart';
+import 'package:undermatch_app/widgets/jugadores/formulario_jugadores.dart';
 import 'package:undermatch_app/widgets/validacionCambio.dart';
 
 class ElementoJugador extends StatefulWidget {
-  final int idProveedor;
-  final String rfc;
+  final int idPersona;
+  final int idJugador;
   final String nombre;
-  final String razonSocial;
-  final String calle;
-  final String numero;
-  final String colonia;
-  final String codigoPostal;
-  final int idMunicipio;
-  final int idTipoProveedor;
-  final String correo;
+  final String primerApellido;
+  final String segundoApellido;
+  final String fechaNacimiento;
+  final String sexo;
   final String telefono;
-  final int idPanel;
-  final int Estatus;
+  final String telefono2;
+  final String correo;
+  final String numDorsal;
+  final String sobreNombre;
+  final String posicion;
+  final int estatus;
   final Function formulario;
 
   const ElementoJugador(
       {Key? key,
-      required this.Estatus,
       required this.formulario,
-      required this.idProveedor,
-      required this.rfc,
+      required this.idPersona,
+      required this.idJugador,
       required this.nombre,
-      required this.razonSocial,
-      required this.calle,
-      required this.numero,
-      required this.colonia,
-      required this.codigoPostal,
-      required this.idMunicipio,
-      required this.idTipoProveedor,
-      required this.correo,
+      required this.primerApellido,
+      required this.segundoApellido,
+      required this.fechaNacimiento,
+      required this.sexo,
       required this.telefono,
-      required this.idPanel})
+      required this.telefono2,
+      required this.correo,
+      required this.numDorsal,
+      required this.sobreNombre,
+      required this.posicion,
+      required this.estatus})
       : super(key: key);
 
   @override
@@ -44,48 +44,26 @@ class ElementoJugador extends StatefulWidget {
 }
 
 class _ElementoJugadorState extends State<ElementoJugador> {
-  late int estatusProveedor;
-
-  Future<void> _formularioProveedor() async {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return FormularioProveedor(
-            idProveedor: widget.idProveedor,
-            idMunicipio: widget.idMunicipio,
-            idPanel: widget.idPanel,
-            idTipoProveedor: widget.idTipoProveedor,
-            nombre: widget.nombre,
-            numero: widget.numero,
-            calle: widget.calle,
-            codigoPostal: widget.codigoPostal,
-            colonia: widget.colonia,
-            correo: widget.correo,
-            razonSocial: widget.razonSocial,
-            rfc: widget.rfc,
-            telefono: widget.telefono,
-          );
-        });
-  }
+  late int estatusJugador;
 
   Future<void> _validarCambio(Function accion) async {
     return showDialog(
       context: context,
       builder: (context) {
         return ValidacionCambio(
-            titulo: "Guardar cambios", accion: accion, modulo: "Proveedor");
+            titulo: "Guardar cambios", accion: accion, modulo: "Jugador");
       },
     );
   }
 
   eliminar() {
-    ProveedorAPI().eliminar(widget.idProveedor).then((res) {
+    JugadorAPI().eliminar(widget.idJugador).then((res) {
       if (res == "OK") {
         setState(() {
-          estatusProveedor = 0;
+          estatusJugador = 0;
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text("Se ha desactivado un proveedor",
+            content: const Text("Se ha desactivado un jugador",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
@@ -93,8 +71,7 @@ class _ElementoJugadorState extends State<ElementoJugador> {
                 borderRadius: BorderRadius.circular(10.0))));
       } else if (res == "ERROR") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text(
-                "Ha ocurrido un error al desactivar un proveedor",
+            content: const Text("Ha ocurrido un error al desactivar un jugador",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
@@ -105,13 +82,13 @@ class _ElementoJugadorState extends State<ElementoJugador> {
   }
 
   activar() {
-    ProveedorAPI().activar(widget.idProveedor).then((res) {
+    JugadorAPI().activar(widget.idJugador).then((res) {
       if (res == "OK") {
         setState(() {
-          estatusProveedor = 1;
+          estatusJugador = 1;
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text("Se ha activado un proveedor",
+            content: const Text("Se ha activado un jugador",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
@@ -119,7 +96,7 @@ class _ElementoJugadorState extends State<ElementoJugador> {
                 borderRadius: BorderRadius.circular(10.0))));
       } else if (res == "ERROR") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text("Ha ocurrido un error al activar un proveedor",
+            content: const Text("Ha ocurrido un error al activar un jugador",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
@@ -130,9 +107,9 @@ class _ElementoJugadorState extends State<ElementoJugador> {
   }
 
   hacerCambio() {
-    if (estatusProveedor == 0) {
+    if (estatusJugador == 0) {
       _validarCambio(activar);
-    } else if (estatusProveedor == 1) {
+    } else if (estatusJugador == 1) {
       _validarCambio(eliminar);
     }
   }
@@ -141,7 +118,7 @@ class _ElementoJugadorState extends State<ElementoJugador> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    estatusProveedor = widget.Estatus;
+    estatusJugador = widget.estatus;
   }
 
   @override
@@ -176,15 +153,15 @@ class _ElementoJugadorState extends State<ElementoJugador> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Nombre: ${widget.nombre}"),
-              Text("Razón Social: ${widget.razonSocial}"),
-              Text("Telefono: ${widget.telefono}"),
+              Text("SobreNombre: ${widget.sobreNombre}"),
+              Text("Núm. Dorsal: ${widget.numDorsal}"),
             ],
           ),
           Row(
             children: [
               IconButton(
                   onPressed: () => hacerCambio(),
-                  icon: estatusProveedor == 0
+                  icon: estatusJugador == 0
                       ? const Icon(
                           Icons.toggle_off,
                           color: Colors.red,
@@ -195,18 +172,18 @@ class _ElementoJugadorState extends State<ElementoJugador> {
                         )),
               IconButton(
                   onPressed: () => widget.formulario(
-                        widget.idProveedor,
-                        widget.idMunicipio,
-                        widget.idPanel,
-                        widget.idTipoProveedor,
+                        widget.idPersona,
+                        widget.idJugador,
                         widget.nombre,
-                        widget.numero,
-                        widget.calle,
-                        widget.codigoPostal,
-                        widget.colonia,
                         widget.correo,
-                        widget.razonSocial,
-                        widget.rfc,
+                        widget.fechaNacimiento,
+                        widget.numDorsal,
+                        widget.posicion,
+                        widget.primerApellido,
+                        widget.segundoApellido,
+                        widget.sexo,
+                        widget.sobreNombre,
+                        widget.telefono2,
                         widget.telefono,
                       ),
                   icon: const Icon(

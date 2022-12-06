@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/proveedor_api.dart';
-import 'package:undermatch_app/models/proveedor.dart';
+import 'package:undermatch_app/api/jugador_api.dart';
+import 'package:undermatch_app/models/jugador.dart';
 
 class FormularioJugador extends StatefulWidget {
-  final int idProveedor;
-  final String rfc;
+  final int idPersona;
+  final int idJugador;
   final String nombre;
-  final String razonSocial;
-  final String calle;
-  final String numero;
-  final String colonia;
-  final String codigoPostal;
-  final int idMunicipio; //
-  final int idTipoProveedor; //
-  final String correo;
+  final String primerApellido;
+  final String segundoApellido;
+  final String fechaNacimiento;
+  final String sexo;
   final String telefono;
-  final int idPanel; //
+  final String telefono2;
+  final String correo;
+  final String numDorsal;
+  final String sobreNombre;
+  final String posicion;
 
   const FormularioJugador({
     Key? key,
-    required this.idProveedor,
-    required this.rfc,
+    required this.idPersona,
+    required this.idJugador,
     required this.nombre,
-    required this.razonSocial,
-    required this.calle,
-    required this.numero,
-    required this.colonia,
-    required this.codigoPostal,
-    required this.idMunicipio,
-    required this.idTipoProveedor,
-    required this.correo,
+    required this.primerApellido,
+    required this.segundoApellido,
+    required this.fechaNacimiento,
+    required this.sexo,
     required this.telefono,
-    required this.idPanel,
+    required this.telefono2,
+    required this.correo,
+    required this.numDorsal,
+    required this.sobreNombre,
+    required this.posicion,
   }) : super(key: key);
 
   @override
@@ -41,63 +41,78 @@ class FormularioJugador extends StatefulWidget {
 class _FormularioJugadorState extends State<FormularioJugador> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
-  final TextEditingController _rfc = TextEditingController();
   final TextEditingController _nombre = TextEditingController();
-  final TextEditingController _razonSocial = TextEditingController();
-  final TextEditingController _calle = TextEditingController();
-  final TextEditingController _numero = TextEditingController();
-  final TextEditingController _colonia = TextEditingController();
-  final TextEditingController _cp = TextEditingController();
-  final TextEditingController _idMunicipio = TextEditingController();
-  final TextEditingController _idTipoProveedor = TextEditingController();
-  final TextEditingController _correo = TextEditingController();
+  final TextEditingController _primerApellido = TextEditingController();
+  final TextEditingController _segundoApellido = TextEditingController();
   final TextEditingController _telefono = TextEditingController();
-  final TextEditingController _idPlantel = TextEditingController();
+  final TextEditingController _telefono2 = TextEditingController();
+  final TextEditingController _correo = TextEditingController();
+  final TextEditingController _numDorsal = TextEditingController();
+  final TextEditingController _sobreNombre = TextEditingController();
 
-  String valorMunicipio = "334";
-  List<DropdownMenuItem<String>> comboMunicipios = [
-    const DropdownMenuItem<String>(value: "334", child: Text("León")),
-    const DropdownMenuItem<String>(value: "321", child: Text("Guanajuato")),
-    const DropdownMenuItem<String>(value: "348", child: Text("Celaya")),
-    const DropdownMenuItem<String>(value: "327", child: Text("Irapuato")),
+  String _sexo = "Hombre";
+  List<DropdownMenuItem<String>> comboSexo = [
+    const DropdownMenuItem<String>(value: "Hombre", child: Text("Hombre")),
+    const DropdownMenuItem<String>(value: "Mujer", child: Text("Mujer")),
+    const DropdownMenuItem<String>(value: "Otro", child: Text("Otro")),
   ];
 
-  String valorTProveedor = "1";
-  List<DropdownMenuItem<String>> comboTProveedor = [
-    const DropdownMenuItem<String>(value: "1", child: Text("Calzado")),
-    const DropdownMenuItem<String>(value: "2", child: Text("Vestimenta")),
-    const DropdownMenuItem<String>(value: "3", child: Text("Balones")),
+  String _dia = "01";
+  List<DropdownMenuItem<String>> comboDia = [
+    const DropdownMenuItem<String>(value: "01", child: Text("01")),
+    const DropdownMenuItem<String>(value: "02", child: Text("02")),
+    const DropdownMenuItem<String>(value: "03", child: Text("03")),
   ];
 
-  String valorPlantel = "1";
-  List<DropdownMenuItem<String>> comboPlantel = [
-    const DropdownMenuItem<String>(value: "1", child: Text("Deportiva León")),
-    const DropdownMenuItem<String>(value: "2", child: Text("Estadio León")),
+  String _mes = "01";
+  List<DropdownMenuItem<String>> comboMes = [
+    const DropdownMenuItem<String>(value: "01", child: Text("01")),
+    const DropdownMenuItem<String>(value: "02", child: Text("02")),
+    const DropdownMenuItem<String>(value: "03", child: Text("03")),
+  ];
+
+  String _anio = "2000";
+  List<DropdownMenuItem<String>> comboAnio = [
+    const DropdownMenuItem<String>(value: "2000", child: Text("2000")),
+    const DropdownMenuItem<String>(value: "2001", child: Text("2001")),
+    const DropdownMenuItem<String>(value: "2002", child: Text("2002")),
+  ];
+
+  String _posicion = "Delantero";
+  List<DropdownMenuItem<String>> comboPosicion = [
+    const DropdownMenuItem<String>(
+        value: "Delantero", child: Text("Delantero")),
+    const DropdownMenuItem<String>(value: "Defensa", child: Text("Defensa")),
+    const DropdownMenuItem<String>(value: "Medio", child: Text("Medio")),
+    const DropdownMenuItem<String>(value: "Portero", child: Text("Portero")),
   ];
 
   guardar() {
     if (_form.currentState!.validate()) {
-      if (widget.idProveedor != 0) {
-        Proveedor proveedor = Proveedor(
-            widget.idProveedor,
-            _rfc.text,
-            _nombre.text,
-            _razonSocial.text,
-            _calle.text,
-            _numero.text,
-            _colonia.text,
-            _cp.text,
-            int.parse(valorMunicipio),
-            int.parse(valorTProveedor),
-            _correo.text,
-            _telefono.text,
-            int.parse(valorPlantel),
-            1);
+      String fecha = '$_dia-$_mes-$_anio';
 
-        ProveedorAPI().editar(proveedor).then((res) {
+      Jugador jugador = Jugador(
+          widget.idPersona,
+          widget.idJugador,
+          _nombre.text,
+          _primerApellido.text,
+          _segundoApellido.text,
+          fecha,
+          _sexo,
+          _telefono.text,
+          _telefono2.text,
+          _correo.text,
+          _numDorsal.text,
+          _sobreNombre.text,
+          _posicion,
+          0,
+          1);
+
+      if (widget.idJugador != 0) {
+        JugadorAPI().editar(jugador).then((res) {
           if (res == "OK") {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text("Se ha actualizado un proveedor",
+                content: const Text("Se ha actualizado un jugador",
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 backgroundColor: Colors.green,
                 behavior: SnackBarBehavior.floating,
@@ -107,7 +122,7 @@ class _FormularioJugadorState extends State<FormularioJugador> {
           } else if (res == "ERROR") {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: const Text(
-                    "Ha ocurrido un error al actualizar un proveedor",
+                    "Ha ocurrido un error al actualizar un jugador",
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 backgroundColor: Colors.red,
                 behavior: SnackBarBehavior.floating,
@@ -117,26 +132,10 @@ class _FormularioJugadorState extends State<FormularioJugador> {
           }
         });
       } else {
-        Proveedor proveedor = Proveedor(
-            widget.idProveedor,
-            _rfc.text,
-            _nombre.text,
-            _razonSocial.text,
-            _calle.text,
-            _numero.text,
-            _colonia.text,
-            _cp.text,
-            int.parse(valorMunicipio),
-            int.parse(valorTProveedor),
-            _correo.text,
-            _telefono.text,
-            int.parse(valorPlantel),
-            1);
-
-        ProveedorAPI().agregar(proveedor).then((res) {
+        JugadorAPI().agregar(jugador).then((res) {
           if (res == "OK") {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text("Se ha registrado un proveedor",
+                content: const Text("Se ha registrado un jugador",
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 backgroundColor: Colors.green,
                 behavior: SnackBarBehavior.floating,
@@ -146,7 +145,7 @@ class _FormularioJugadorState extends State<FormularioJugador> {
           } else if (res == "ERROR") {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: const Text(
-                    "Ha ocurrido un error al registrar un proveedor",
+                    "Ha ocurrido un error al registrar un jugador",
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 backgroundColor: Colors.red,
                 behavior: SnackBarBehavior.floating,
@@ -164,18 +163,26 @@ class _FormularioJugadorState extends State<FormularioJugador> {
     // TODO: implement initState
     super.initState();
 
-    _rfc.text = widget.rfc;
     _nombre.text = widget.nombre;
-    _razonSocial.text = widget.razonSocial;
-    _calle.text = widget.calle;
-    _numero.text = widget.numero;
-    _colonia.text = widget.colonia;
-    _cp.text = widget.codigoPostal;
-    _idMunicipio.text = widget.idMunicipio.toString();
-    _idTipoProveedor.text = widget.idTipoProveedor.toString();
-    _correo.text = widget.correo;
+    _primerApellido.text = widget.primerApellido;
+    _segundoApellido.text = widget.segundoApellido;
     _telefono.text = widget.telefono;
-    _idPlantel.text = widget.idPanel.toString();
+    _telefono2.text = widget.telefono2;
+    _correo.text = widget.correo;
+    _numDorsal.text = widget.numDorsal;
+    _sobreNombre.text = widget.sobreNombre;
+    _posicion = widget.posicion;
+    _sexo = widget.sexo;
+    asignarFecha();
+  }
+
+  asignarFecha() {
+    String fecha = widget.fechaNacimiento;
+    final fechaSplit = fecha.split("-");
+
+    _dia = fechaSplit[0];
+    _mes = fechaSplit[1];
+    _anio = fechaSplit[2];
   }
 
   @override
@@ -183,7 +190,7 @@ class _FormularioJugadorState extends State<FormularioJugador> {
     return Form(
       key: _form,
       child: SimpleDialog(
-        title: const Text("Guardar proveedor"),
+        title: const Text("Guardar jugador"),
         contentPadding: const EdgeInsets.all(15),
         children: [
           TextFormField(
@@ -201,9 +208,9 @@ class _FormularioJugadorState extends State<FormularioJugador> {
           ),
           TextFormField(
             decoration: const InputDecoration(
-              label: Text("RFC"),
+              label: Text("Primer Apellido"),
             ),
-            controller: _rfc,
+            controller: _primerApellido,
             validator: (value) {
               String dato = value.toString();
 
@@ -214,105 +221,88 @@ class _FormularioJugadorState extends State<FormularioJugador> {
           ),
           TextFormField(
             decoration: const InputDecoration(
-              label: Text("Razón Social"),
+              label: Text("Segundo Apellido"),
             ),
-            controller: _razonSocial,
-            validator: (value) {
-              String dato = value.toString();
-
-              if (dato == "") {
-                return "Este campo es obligatorio";
-              }
-            },
+            controller: _segundoApellido,
           ),
-          TextFormField(
-            decoration: const InputDecoration(
-              label: Text("Calle"),
-            ),
-            controller: _calle,
-            validator: (value) {
-              String dato = value.toString();
-
-              if (dato == "") {
-                return "Este campo es obligatorio";
-              }
-            },
+          const Text("Fecha de nacimiento"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                flex: 2,
+                child: DropdownButton(
+                  value: _dia,
+                  items: comboDia,
+                  isExpanded: true,
+                  elevation: 16,
+                  onChanged: (String? item) {
+                    _dia = item!;
+                    setState(() {});
+                  },
+                ),
+              ),
+              const Expanded(flex: 1, child: Text("|")),
+              Expanded(
+                flex: 2,
+                child: DropdownButton(
+                  value: _mes,
+                  items: comboMes,
+                  isExpanded: true,
+                  elevation: 16,
+                  onChanged: (String? item) {
+                    _mes = item!;
+                    setState(() {});
+                  },
+                ),
+              ),
+              const Expanded(flex: 1, child: Text("|")),
+              Expanded(
+                flex: 2,
+                child: DropdownButton(
+                  value: _anio,
+                  items: comboAnio,
+                  isExpanded: true,
+                  elevation: 16,
+                  onChanged: (String? item) {
+                    _anio = item!;
+                    setState(() {});
+                  },
+                ),
+              ),
+            ],
           ),
-          TextFormField(
-            decoration: const InputDecoration(
-              label: Text("Número"),
-            ),
-            controller: _numero,
-            keyboardType: TextInputType.number,
-            validator: (value) {
-              String dato = value.toString();
-
-              if (dato.startsWith("0")) {
-                return "Este campo no puede contener un 0 al inicio";
-              }
-              if (dato.contains(",") ||
-                  dato.contains(".") ||
-                  dato.contains(" ") ||
-                  dato.contains("-")) {
-                return "No es permitido ingresar , . - o espacios en blanco";
-              }
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              label: Text("Colonia"),
-            ),
-            controller: _colonia,
-            validator: (value) {
-              String dato = value.toString();
-
-              if (dato == "") {
-                return "Este campo es obligatorio";
-              }
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              label: Text("Codigo Postal"),
-            ),
-            controller: _cp,
-            maxLength: 5,
-            keyboardType: TextInputType.number,
-            validator: (value) {
-              String dato = value.toString();
-
-              if (dato.startsWith("0")) {
-                return "Este campo no puede contener un 0 al inicio";
-              }
-              if (dato.contains(",") ||
-                  dato.contains(".") ||
-                  dato.contains(" ") ||
-                  dato.contains("-")) {
-                return "No es permitido ingresar , . - o espacios en blanco";
-              }
-            },
-          ),
-          const Text("Municipio"),
+          const Text("Sexo"),
           DropdownButton(
-            value: valorMunicipio,
-            items: comboMunicipios,
+            value: _sexo,
+            items: comboSexo,
             isExpanded: true,
             elevation: 16,
             onChanged: (String? item) {
-              valorMunicipio = item!;
+              _sexo = item!;
               setState(() {});
             },
           ),
-          const Text("Tipo de proveedor"),
-          DropdownButton(
-            value: valorTProveedor,
-            items: comboTProveedor,
-            isExpanded: true,
-            elevation: 16,
-            onChanged: (String? item) {
-              valorTProveedor = item!;
-              setState(() {});
+          TextFormField(
+            decoration: const InputDecoration(
+              label: Text("Telefono"),
+            ),
+            controller: _telefono,
+            keyboardType: TextInputType.phone,
+            validator: (value) {
+              String dato = value.toString();
+
+              if (dato == "") {
+                return "Este campo es obligatorio";
+              }
             },
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+              label: Text("Telefono2"),
+            ),
+            controller: _telefono,
+            keyboardType: TextInputType.phone,
           ),
           TextFormField(
             decoration: const InputDecoration(
@@ -330,10 +320,9 @@ class _FormularioJugadorState extends State<FormularioJugador> {
           ),
           TextFormField(
             decoration: const InputDecoration(
-              label: Text("Telefono"),
+              label: Text("Número de dorsal"),
             ),
-            controller: _telefono,
-            keyboardType: TextInputType.phone,
+            controller: _numDorsal,
             validator: (value) {
               String dato = value.toString();
 
@@ -342,14 +331,40 @@ class _FormularioJugadorState extends State<FormularioJugador> {
               }
             },
           ),
-          const Text("Plantel"),
+          TextFormField(
+            decoration: const InputDecoration(
+              label: Text("Nombre"),
+            ),
+            controller: _nombre,
+            validator: (value) {
+              String dato = value.toString();
+
+              if (dato == "") {
+                return "Este campo es obligatorio";
+              }
+            },
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+              label: Text("SobreNombre"),
+            ),
+            controller: _sobreNombre,
+            validator: (value) {
+              String dato = value.toString();
+
+              if (dato == "") {
+                return "Este campo es obligatorio";
+              }
+            },
+          ),
+          const Text("Posición"),
           DropdownButton(
-            value: valorPlantel,
-            items: comboPlantel,
+            value: _posicion,
+            items: comboPosicion,
             isExpanded: true,
             elevation: 16,
             onChanged: (String? item) {
-              valorPlantel = item!;
+              _posicion = item!;
               setState(() {});
             },
           ),
