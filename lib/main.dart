@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:undermatch_app/routes/routes.dart';
 import 'package:undermatch_app/widgets/arbitros/arbitros_inicio.dart';
+import 'package:undermatch_app/widgets/drawerMenu/drawe_menu.dart';
 import 'package:undermatch_app/widgets/empleados/empleados_inicio.dart';
 import 'package:undermatch_app/widgets/equipos/equipos_inicio.dart';
 import 'package:undermatch_app/widgets/jugadores/jugadores_inicio.dart';
@@ -50,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
+      drawer: const DrawerMenu(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
