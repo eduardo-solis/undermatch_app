@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/equipos_api.dart';
+import 'package:undermatch_app/controller/equipos_api.dart';
 import 'package:undermatch_app/widgets/equipos/formularioEquipos.dart';
 import 'package:undermatch_app/widgets/validacionCambio.dart';
 

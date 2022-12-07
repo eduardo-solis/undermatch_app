@@ -1,77 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/jugador_api.dart';
-import 'package:undermatch_app/models/jugador.dart';
-import 'package:undermatch_app/widgets/jugadores/elemento_jugador.dart';
+import 'package:undermatch_app/controller/equipos_api.dart';
+import 'package:undermatch_app/models/equipo.dart';
+import 'package:undermatch_app/widgets/equipos/elementoEquipo.dart';
+import 'package:undermatch_app/widgets/equipos/formularioEquipos.dart';
 
-import 'formulario_jugadores.dart';
-
-class JugadoresInicio extends StatefulWidget {
-  const JugadoresInicio({Key? key}) : super(key: key);
+class EquiposInicio extends StatefulWidget {
+  const EquiposInicio({Key? key}) : super(key: key);
 
   @override
-  State<JugadoresInicio> createState() => _JugadoresInicioState();
+  State<EquiposInicio> createState() => _EquiposInicioState();
 }
 
-class _JugadoresInicioState extends State<JugadoresInicio> {
-  late Future<List<Jugador>> jugadores;
-  late Future<List<Jugador>> jugadoresFiltrados;
+class _EquiposInicioState extends State<EquiposInicio> {
+  late Future<List<Equipo>> equipos;
+  late Future<List<Equipo>> equiposFiltrados;
   bool buscando = false;
   final TextEditingController _textoABuscar = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    obtenerJugadores();
+    obtenerEquipos();
   }
 
-  obtenerJugadores() {
-    jugadores = JugadorAPI().getList();
-    jugadoresFiltrados = jugadores.then((value) => value);
+  obtenerEquipos() {
+    equipos = EquiposAPI().getList();
+    equiposFiltrados = equipos.then((value) => value);
   }
 
-  List<Widget> _listaJugadores(List<Jugador> data) {
-    List<Widget> jugadores = [];
+  List<Widget> _listaEquipos(List<Equipo> data) {
+    List<Widget> equipos = [];
 
-    for (var jugador in data) {
-      jugadores.add(ElementoJugador(
-          formulario: _formularioJugador,
-          idPersona: jugador.idPersona,
-          idJugador: jugador.idJugador,
-          nombre: jugador.nombre,
-          primerApellido: jugador.primerApellido,
-          segundoApellido: jugador.segundoApellido,
-          fechaNacimiento: jugador.fechaNacimiento,
-          sexo: jugador.sexo,
-          telefono: jugador.telefono,
-          telefono2: jugador.telefono2,
-          correo: jugador.correo,
-          numDorsal: jugador.numDorsal,
-          sobreNombre: jugador.sobreNombre,
-          posicion: jugador.posicion,
-          estatus: jugador.estatus));
+    for (var equipo in data) {
+      equipos.add(ElementoEquipo(
+          Nombre: equipo.nombre,
+          Id: equipo.idEquipo,
+          Categoria: equipo.categoria,
+          AnioFundacion: equipo.anioFundacion,
+          Zona: equipo.zona,
+          ColorLocal: equipo.colorLocal,
+          ColorVisitante: equipo.colorVisitante,
+          Estatus: equipo.estatus,
+          formulario: _formularioEquipos));
     }
 
-    return jugadores;
+    return equipos;
   }
 
   buscar() {
     if (_textoABuscar.text.length != 0) {
-      jugadoresFiltrados = jugadores.then((value) {
+      equiposFiltrados = equipos.then((value) {
         String aux = _textoABuscar.text.toLowerCase();
-        List<Jugador> auxJugador = [];
+        List<Equipo> auxEquipos = [];
         for (var element in value) {
           if (element.nombre.toLowerCase().contains(aux)) {
-            auxJugador.add(element);
+            auxEquipos.add(element);
           }
         }
-        return auxJugador;
+        return auxEquipos;
       });
 
       buscando = true;
       setState(() {});
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text("Ingrese el nombre del jugador a buscar",
+          content: const Text("Ingrese el nombre del equipo a buscar",
               style: TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.amber,
           behavior: SnackBarBehavior.floating,
@@ -81,48 +74,29 @@ class _JugadoresInicioState extends State<JugadoresInicio> {
   }
 
   limpiar() {
-    jugadoresFiltrados = jugadores;
+    equiposFiltrados = equipos;
     _textoABuscar.text = "";
     buscando = false;
     setState(() {});
   }
 
-  Future<void> _formularioJugador(
-    int idPersona,
-    int idJugador,
-    String nombre,
-    String correo,
-    String fechaNacimiento,
-    String numDorsal,
-    String posicion,
-    String primerApellido,
-    String segundoApellido,
-    String sexo,
-    String sobreNombre,
-    String telefono2,
-    String telefono,
-  ) async {
+  Future<void> _formularioEquipos(int id, String nombre, String anio,
+      int categoria, String colorL, String colorV, String zona) async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return FormularioJugador(
-            idPersona: idPersona,
-            idJugador: idJugador,
+          return FormularioEquipos(
+            id: id,
             nombre: nombre,
-            correo: correo,
-            fechaNacimiento: fechaNacimiento,
-            numDorsal: numDorsal,
-            posicion: posicion,
-            primerApellido: primerApellido,
-            segundoApellido: segundoApellido,
-            sexo: sexo,
-            sobreNombre: sobreNombre,
-            telefono2: telefono2,
-            telefono: telefono,
+            anioFundacion: anio,
+            categoria: categoria,
+            colorLocal: colorL,
+            colorVisitante: colorV,
+            zona: zona,
           );
         }).then((value) {
       setState(() {
-        obtenerJugadores();
+        obtenerEquipos();
       });
     });
   }
@@ -131,7 +105,7 @@ class _JugadoresInicioState extends State<JugadoresInicio> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Jugadores"),
+        title: const Text("Equipos"),
         centerTitle: true,
         elevation: 0,
       ),
@@ -174,7 +148,7 @@ class _JugadoresInicioState extends State<JugadoresInicio> {
                 ),
 
                 FutureBuilder(
-                  future: jugadoresFiltrados,
+                  future: equiposFiltrados,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data!.isEmpty) {
@@ -187,7 +161,7 @@ class _JugadoresInicioState extends State<JugadoresInicio> {
                         return ListView(
                           shrinkWrap: true,
                           children:
-                              _listaJugadores(snapshot.data as List<Jugador>),
+                              _listaEquipos(snapshot.data as List<Equipo>),
                         );
                       }
                     } else if (snapshot.hasError) {
@@ -204,8 +178,7 @@ class _JugadoresInicioState extends State<JugadoresInicio> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Agregar"),
         splashColor: Colors.amber,
-        onPressed: () => _formularioJugador(0, 0, "", "", "01-01-2000", "",
-            "Delantero", "", "", "Hombre", "", "", ""),
+        onPressed: () => _formularioEquipos(0, "", "", 1, "", "", ""),
       ),
     );
   }

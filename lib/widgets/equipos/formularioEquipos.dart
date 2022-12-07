@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/ctgCategorias_api.dart';
-import 'package:undermatch_app/api/equipos_api.dart';
+import 'package:undermatch_app/controller/ctgCategorias_api.dart';
+import 'package:undermatch_app/controller/equipos_api.dart';
 import 'package:undermatch_app/models/equipo.dart';
 
 class FormularioEquipos extends StatefulWidget {

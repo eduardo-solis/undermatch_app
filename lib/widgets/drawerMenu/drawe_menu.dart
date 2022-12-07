@@ -18,23 +18,23 @@ class DrawerMenu extends StatelessWidget {
               text: 'Inicio',
               onTap: () => {Navigator.pushNamed(context, Routes.INICIO)}),
           BuildDrawerItem(
-              icon: Icons.account_circle,
+              icon: Icons.sports_soccer,
               text: 'Equipos',
               onTap: () => {Navigator.pushNamed(context, Routes.EQUIPOS)}),
           BuildDrawerItem(
-              icon: Icons.movie,
+              icon: Icons.people,
               text: 'Jugadores',
               onTap: () => {Navigator.pushNamed(context, Routes.JUGADORES)}),
           BuildDrawerItem(
-              icon: Icons.movie,
+              icon: Icons.shopping_cart,
               text: 'Proveedores',
               onTap: () => {Navigator.pushNamed(context, Routes.PROVEEDORES)}),
           BuildDrawerItem(
-              icon: Icons.movie,
+              icon: Icons.person_outlined,
               text: 'Empleados',
               onTap: () => {Navigator.pushNamed(context, Routes.EMPLEADOS)}),
           BuildDrawerItem(
-              icon: Icons.movie,
+              icon: Icons.sports,
               text: 'Arbitros',
               onTap: () => {Navigator.pushNamed(context, Routes.ARBITROS)}),
           Divider(),

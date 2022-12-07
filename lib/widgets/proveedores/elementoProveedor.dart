@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/proveedor_api.dart';
+import 'package:undermatch_app/controller/proveedor_api.dart';
 import 'package:undermatch_app/widgets/proveedores/formularioProveedores.dart';
 import 'package:undermatch_app/widgets/validacionCambio.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/arbitro_api.dart';
+import 'package:undermatch_app/controller/arbitro_api.dart';
 import 'package:undermatch_app/models/arbitro.dart';
 
 class FormularioArbitro extends StatefulWidget {

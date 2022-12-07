@@ -1,76 +1,84 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/arbitro_api.dart';
-import 'package:undermatch_app/models/arbitro.dart';
-import 'package:undermatch_app/widgets/arbitros/elemento_arbitro.dart';
+import 'package:undermatch_app/controller/empleado_api.dart';
+import 'package:undermatch_app/models/empleado.dart';
+import 'package:undermatch_app/widgets/empleados/elemento_empleado.dart';
 
-import 'formulario_arbitro.dart';
+import '../widgets/empleados/formulario_empleado.dart';
 
-class ArbitrosInicio extends StatefulWidget {
-  const ArbitrosInicio({Key? key}) : super(key: key);
+class EmpledosInicio extends StatefulWidget {
+  const EmpledosInicio({Key? key}) : super(key: key);
 
   @override
-  State<ArbitrosInicio> createState() => _ArbitrosInicioState();
+  State<EmpledosInicio> createState() => _EmpledosInicioState();
 }
 
-class _ArbitrosInicioState extends State<ArbitrosInicio> {
-  late Future<List<Arbitro>> arbitros;
-  late Future<List<Arbitro>> arbitrosFiltrados;
+class _EmpledosInicioState extends State<EmpledosInicio> {
+  late Future<List<Empleado>> empleados;
+  late Future<List<Empleado>> empleadosFiltrados;
   bool buscando = false;
   final TextEditingController _textoABuscar = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    obtenerArbitros();
+    obtenerEmpleados();
   }
 
-  obtenerArbitros() {
-    arbitros = ArbitroAPI().getList();
-    arbitrosFiltrados = arbitros.then((value) => value);
+  obtenerEmpleados() {
+    empleados = EmpleadoAPI().getList();
+    empleadosFiltrados = empleados.then((value) => value);
   }
 
-  List<Widget> _listaArbitros(List<Arbitro> data) {
-    List<Widget> arbitros = [];
+  List<Widget> _listaEmpleados(List<Empleado> data) {
+    List<Widget> empleados = [];
 
-    for (var arbitro in data) {
-      arbitros.add(ElementoArbitro(
-          idPersona: arbitro.idPersona,
-          idArbitro: arbitro.idArbitro,
-          nombre: arbitro.nombre,
-          primerApellido: arbitro.primerApellido,
-          segundoApellido: arbitro.segundoApellido,
-          fechaNacimiento: arbitro.fechaNacimiento,
-          sexo: arbitro.sexo,
-          telefono: arbitro.telefono,
-          correo: arbitro.correo,
-          costoArbitraje: arbitro.costoArbitraje,
-          idCategoria: arbitro.idCategoria,
-          idTipoArbotro: arbitro.idTipoArbotro,
-          estatus: arbitro.estatus,
-          formulario: _formularioArbitro));
+    for (var empleado in data) {
+      empleados.add(ElementoEmpleado(
+          idPersona: empleado.idPersona,
+          idEmpleado: empleado.idEmpleado,
+          nombre: empleado.nombre,
+          primerApellido: empleado.primerApellido,
+          segundoApellido: empleado.segundoApellido,
+          fechaNacimiento: empleado.fechaNacimiento,
+          sexo: empleado.sexo,
+          telefono: empleado.telefono,
+          correo: empleado.correo,
+          calleE: empleado.calleE,
+          numeroE: empleado.numeroE,
+          coloniaE: empleado.coloniaE,
+          codigoPostalE: empleado.codigoPostalE,
+          idMunicipioE: empleado.idMunicipioE,
+          curpe: empleado.curpe,
+          tipoEmpleado: empleado.tipoEmpleado,
+          rfcE: empleado.rfcE,
+          nssE: empleado.nssE,
+          salarioE: empleado.salarioE,
+          horarioE: empleado.horarioE,
+          estatus: empleado.estatus,
+          formulario: _formularioEmpleado));
     }
 
-    return arbitros;
+    return empleados;
   }
 
   buscar() {
     if (_textoABuscar.text.length != 0) {
-      arbitrosFiltrados = arbitros.then((value) {
+      empleadosFiltrados = empleados.then((value) {
         String aux = _textoABuscar.text.toLowerCase();
-        List<Arbitro> auxArbitro = [];
+        List<Empleado> auxEmpleado = [];
         for (var element in value) {
           if (element.nombre.toLowerCase().contains(aux)) {
-            auxArbitro.add(element);
+            auxEmpleado.add(element);
           }
         }
-        return auxArbitro;
+        return auxEmpleado;
       });
 
       buscando = true;
       setState(() {});
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text("Ingrese el nombre del arbitro a buscar",
+          content: const Text("Ingrese el nombre del empleado a buscar",
               style: TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.amber,
           behavior: SnackBarBehavior.floating,
@@ -80,32 +88,39 @@ class _ArbitrosInicioState extends State<ArbitrosInicio> {
   }
 
   limpiar() {
-    arbitrosFiltrados = arbitros;
+    empleadosFiltrados = empleados;
     _textoABuscar.text = "";
     buscando = false;
     setState(() {});
   }
 
-  Future<void> _formularioArbitro(
-    int idPersona,
-    int idArbitro,
-    String nombre,
-    String primerApellido,
-    String segundoApellido,
-    String fechaNacimiento,
-    String sexo,
-    String telefono,
-    String correo,
-    double costoArbitraje,
-    int idCategoria,
-    int idTipoArbotro,
-  ) async {
+  Future<void> _formularioEmpleado(
+      int idPersona,
+      int idEmpleado,
+      String nombre,
+      String primerApellido,
+      String segundoApellido,
+      String fechaNacimiento,
+      String sexo,
+      String telefono,
+      String telefono2,
+      String correo,
+      String calleE,
+      String numeroE,
+      String coloniaE,
+      String codigoPostalE,
+      int idMunicipioE,
+      String curpe,
+      int tipoEmpleado,
+      String rfcE,
+      String nssE,
+      double salarioE,
+      String horarioE) async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return FormularioArbitro(
+          return FormularioEmpleado(
               idPersona: idPersona,
-              idArbitro: idArbitro,
               nombre: nombre,
               primerApellido: primerApellido,
               segundoApellido: segundoApellido,
@@ -113,12 +128,21 @@ class _ArbitrosInicioState extends State<ArbitrosInicio> {
               sexo: sexo,
               telefono: telefono,
               correo: correo,
-              costoArbitraje: costoArbitraje,
-              idCategoria: idCategoria,
-              idTipoArbotro: idTipoArbotro);
+              idEmpleado: idEmpleado,
+              calleE: calleE,
+              numeroE: numeroE,
+              coloniaE: coloniaE,
+              codigoPostalE: codigoPostalE,
+              idMunicipioE: idMunicipioE,
+              curpe: curpe,
+              tipoEmpleado: tipoEmpleado,
+              rfcE: rfcE,
+              nssE: nssE,
+              salarioE: salarioE,
+              horarioE: horarioE);
         }).then((value) {
       setState(() {
-        obtenerArbitros();
+        obtenerEmpleados();
       });
     });
   }
@@ -127,7 +151,7 @@ class _ArbitrosInicioState extends State<ArbitrosInicio> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Arbitros"),
+        title: const Text("Empleados"),
         centerTitle: true,
         elevation: 0,
       ),
@@ -170,7 +194,7 @@ class _ArbitrosInicioState extends State<ArbitrosInicio> {
                 ),
 
                 FutureBuilder(
-                  future: arbitrosFiltrados,
+                  future: empleadosFiltrados,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data!.isEmpty) {
@@ -183,7 +207,7 @@ class _ArbitrosInicioState extends State<ArbitrosInicio> {
                         return ListView(
                           shrinkWrap: true,
                           children:
-                              _listaArbitros(snapshot.data as List<Arbitro>),
+                              _listaEmpleados(snapshot.data as List<Empleado>),
                         );
                       }
                     } else if (snapshot.hasError) {
@@ -200,8 +224,8 @@ class _ArbitrosInicioState extends State<ArbitrosInicio> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Agregar"),
         splashColor: Colors.amber,
-        onPressed: () => _formularioArbitro(
-            0, 0, "", "", "", "01-01-2000", "Hombre", "", "", 0, 1, 1),
+        onPressed: () => _formularioEmpleado(0, 0, "", "", "", "01-01-2000",
+            "Hombre", "", "", "", "", "", "", "", 334, "", 1, "", "", 0, ""),
       ),
     );
   }
