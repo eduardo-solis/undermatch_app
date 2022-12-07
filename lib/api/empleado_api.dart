@@ -30,7 +30,7 @@ class EmpleadoAPI {
               element["FechaNacimiento"],
               element["Sexo"],
               element["Telefono"],
-              element["Telefono2"],
+              "1",
               element["Correo"],
               element["Calle"],
               element["Numero"],
@@ -56,7 +56,6 @@ class EmpleadoAPI {
   Future<String> agregar(Empleado e) async {
     var url = Uri.parse(
         '$urlBase/api/tblEmpleados?nombre=${e.nombre}&primerApellido=${e.primerApellido}&segundoApellido=${e.segundoApellido}&fechaNacimiento=${e.fechaNacimiento}&sexo=${e.sexo}&telefono=${e.telefono}&telefono2=${e.telefono2}&correo=${e.correo}&calleE=${e.calleE}&numeroE=${e.numeroE}&coloniaE=${e.coloniaE}&codigoPostalE=${e.codigoPostalE}&idMunicipioE=${e.idMunicipioE}&curpe=${e.curpe}&tipoEmpleado=${e.tipoEmpleado}&rfcE=${e.rfcE}&nssE=${e.nssE}&salarioE=${e.salarioE}&horarioE=${e.horarioE}');
-
     try {
       final response = await http.post(url);
 

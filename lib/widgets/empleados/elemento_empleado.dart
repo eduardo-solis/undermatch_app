@@ -1,68 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/jugador_api.dart';
+import 'package:undermatch_app/api/empleado_api.dart';
 import 'package:undermatch_app/widgets/validacionCambio.dart';
 
 class ElementoEmpleado extends StatefulWidget {
   final int idPersona;
-  final int idJugador;
+  final int idEmpleado;
   final String nombre;
   final String primerApellido;
   final String segundoApellido;
   final String fechaNacimiento;
   final String sexo;
   final String telefono;
-  final String telefono2;
   final String correo;
-  final String numDorsal;
-  final String sobreNombre;
-  final String posicion;
+  final String calleE;
+  final String numeroE;
+  final String coloniaE;
+  final String codigoPostalE;
+  final int idMunicipioE;
+  final String curpe;
+  final int tipoEmpleado;
+  final String rfcE;
+  final String nssE;
+  final double salarioE;
+  final String horarioE;
   final int estatus;
   final Function formulario;
 
-  const ElementoEmpleado(
-      {Key? key,
-      required this.formulario,
-      required this.idPersona,
-      required this.idJugador,
-      required this.nombre,
-      required this.primerApellido,
-      required this.segundoApellido,
-      required this.fechaNacimiento,
-      required this.sexo,
-      required this.telefono,
-      required this.telefono2,
-      required this.correo,
-      required this.numDorsal,
-      required this.sobreNombre,
-      required this.posicion,
-      required this.estatus})
-      : super(key: key);
+  const ElementoEmpleado({
+    Key? key,
+    required this.idPersona,
+    required this.idEmpleado,
+    required this.nombre,
+    required this.primerApellido,
+    required this.segundoApellido,
+    required this.fechaNacimiento,
+    required this.sexo,
+    required this.telefono,
+    required this.correo,
+    required this.calleE,
+    required this.numeroE,
+    required this.coloniaE,
+    required this.codigoPostalE,
+    required this.idMunicipioE,
+    required this.curpe,
+    required this.tipoEmpleado,
+    required this.rfcE,
+    required this.nssE,
+    required this.salarioE,
+    required this.horarioE,
+    required this.estatus,
+    required this.formulario,
+  }) : super(key: key);
 
   @override
   State<ElementoEmpleado> createState() => _ElementoEmpleadoState();
 }
 
 class _ElementoEmpleadoState extends State<ElementoEmpleado> {
-  late int estatusJugador;
+  late int estatusEmpleado;
 
   Future<void> _validarCambio(Function accion) async {
     return showDialog(
       context: context,
       builder: (context) {
         return ValidacionCambio(
-            titulo: "Guardar cambios", accion: accion, modulo: "Jugador");
+            titulo: "Guardar cambios", accion: accion, modulo: "Empleado");
       },
     );
   }
 
   eliminar() {
-    JugadorAPI().eliminar(widget.idJugador).then((res) {
+    EmpleadoAPI().eliminar(widget.idEmpleado).then((res) {
       if (res == "OK") {
         setState(() {
-          estatusJugador = 0;
+          estatusEmpleado = 0;
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text("Se ha desactivado un jugador",
+            content: const Text("Se ha desactivado un empleado",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
@@ -70,7 +84,8 @@ class _ElementoEmpleadoState extends State<ElementoEmpleado> {
                 borderRadius: BorderRadius.circular(10.0))));
       } else if (res == "ERROR") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text("Ha ocurrido un error al desactivar un jugador",
+            content: const Text(
+                "Ha ocurrido un error al desactivar un empleado",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
@@ -81,13 +96,13 @@ class _ElementoEmpleadoState extends State<ElementoEmpleado> {
   }
 
   activar() {
-    JugadorAPI().activar(widget.idJugador).then((res) {
+    EmpleadoAPI().activar(widget.idEmpleado).then((res) {
       if (res == "OK") {
         setState(() {
-          estatusJugador = 1;
+          estatusEmpleado = 1;
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text("Se ha activado un jugador",
+            content: const Text("Se ha activado un empleado",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
@@ -95,7 +110,7 @@ class _ElementoEmpleadoState extends State<ElementoEmpleado> {
                 borderRadius: BorderRadius.circular(10.0))));
       } else if (res == "ERROR") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text("Ha ocurrido un error al activar un jugador",
+            content: const Text("Ha ocurrido un error al activar un empleado",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
@@ -106,9 +121,9 @@ class _ElementoEmpleadoState extends State<ElementoEmpleado> {
   }
 
   hacerCambio() {
-    if (estatusJugador == 0) {
+    if (estatusEmpleado == 0) {
       _validarCambio(activar);
-    } else if (estatusJugador == 1) {
+    } else if (estatusEmpleado == 1) {
       _validarCambio(eliminar);
     }
   }
@@ -117,7 +132,7 @@ class _ElementoEmpleadoState extends State<ElementoEmpleado> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    estatusJugador = widget.estatus;
+    estatusEmpleado = widget.estatus;
   }
 
   @override
@@ -152,15 +167,15 @@ class _ElementoEmpleadoState extends State<ElementoEmpleado> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Nombre: ${widget.nombre}"),
-              Text("SobreNombre: ${widget.sobreNombre}"),
-              Text("Núm. Dorsal: ${widget.numDorsal}"),
+              Text("Apellido: ${widget.primerApellido}"),
+              Text("Correo: ${widget.correo}"),
             ],
           ),
           Row(
             children: [
               IconButton(
                   onPressed: () => hacerCambio(),
-                  icon: estatusJugador == 0
+                  icon: estatusEmpleado == 0
                       ? const Icon(
                           Icons.toggle_off,
                           color: Colors.red,
@@ -171,20 +186,27 @@ class _ElementoEmpleadoState extends State<ElementoEmpleado> {
                         )),
               IconButton(
                   onPressed: () => widget.formulario(
-                        widget.idPersona,
-                        widget.idJugador,
-                        widget.nombre,
-                        widget.correo,
-                        widget.fechaNacimiento,
-                        widget.numDorsal,
-                        widget.posicion,
-                        widget.primerApellido,
-                        widget.segundoApellido,
-                        widget.sexo,
-                        widget.sobreNombre,
-                        widget.telefono2,
-                        widget.telefono,
-                      ),
+                      widget.idPersona,
+                      widget.idEmpleado,
+                      widget.nombre,
+                      widget.primerApellido,
+                      widget.segundoApellido,
+                      widget.fechaNacimiento,
+                      widget.sexo,
+                      widget.telefono,
+                      "1",
+                      widget.correo,
+                      widget.calleE,
+                      widget.numeroE,
+                      widget.coloniaE,
+                      widget.codigoPostalE,
+                      widget.idMunicipioE,
+                      widget.curpe,
+                      widget.tipoEmpleado,
+                      widget.rfcE,
+                      widget.nssE,
+                      widget.salarioE,
+                      widget.horarioE),
                   icon: const Icon(
                     Icons.edit,
                     color: Colors.blue,

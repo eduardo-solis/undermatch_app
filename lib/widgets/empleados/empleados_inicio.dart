@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:undermatch_app/api/jugador_api.dart';
-import 'package:undermatch_app/models/jugador.dart';
-import 'package:undermatch_app/widgets/jugadores/elemento_jugador.dart';
+import 'package:undermatch_app/api/empleado_api.dart';
+import 'package:undermatch_app/models/empleado.dart';
+import 'package:undermatch_app/widgets/empleados/elemento_empleado.dart';
 
 import 'formulario_empleado.dart';
 
@@ -13,65 +13,72 @@ class EmpledosInicio extends StatefulWidget {
 }
 
 class _EmpledosInicioState extends State<EmpledosInicio> {
-  late Future<List<Jugador>> jugadores;
-  late Future<List<Jugador>> jugadoresFiltrados;
+  late Future<List<Empleado>> empleados;
+  late Future<List<Empleado>> empleadosFiltrados;
   bool buscando = false;
   final TextEditingController _textoABuscar = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    obtenerJugadores();
+    obtenerEmpleados();
   }
 
-  obtenerJugadores() {
-    jugadores = JugadorAPI().getList();
-    jugadoresFiltrados = jugadores.then((value) => value);
+  obtenerEmpleados() {
+    empleados = EmpleadoAPI().getList();
+    empleadosFiltrados = empleados.then((value) => value);
   }
 
-  List<Widget> _listaJugadores(List<Jugador> data) {
-    List<Widget> jugadores = [];
+  List<Widget> _listaEmpleados(List<Empleado> data) {
+    List<Widget> empleados = [];
 
-    for (var jugador in data) {
-      jugadores.add(ElementoJugador(
-          formulario: _formularioJugador,
-          idPersona: jugador.idPersona,
-          idJugador: jugador.idJugador,
-          nombre: jugador.nombre,
-          primerApellido: jugador.primerApellido,
-          segundoApellido: jugador.segundoApellido,
-          fechaNacimiento: jugador.fechaNacimiento,
-          sexo: jugador.sexo,
-          telefono: jugador.telefono,
-          telefono2: jugador.telefono2,
-          correo: jugador.correo,
-          numDorsal: jugador.numDorsal,
-          sobreNombre: jugador.sobreNombre,
-          posicion: jugador.posicion,
-          estatus: jugador.estatus));
+    for (var empleado in data) {
+      empleados.add(ElementoEmpleado(
+          idPersona: empleado.idPersona,
+          idEmpleado: empleado.idEmpleado,
+          nombre: empleado.nombre,
+          primerApellido: empleado.primerApellido,
+          segundoApellido: empleado.segundoApellido,
+          fechaNacimiento: empleado.fechaNacimiento,
+          sexo: empleado.sexo,
+          telefono: empleado.telefono,
+          correo: empleado.correo,
+          calleE: empleado.calleE,
+          numeroE: empleado.numeroE,
+          coloniaE: empleado.coloniaE,
+          codigoPostalE: empleado.codigoPostalE,
+          idMunicipioE: empleado.idMunicipioE,
+          curpe: empleado.curpe,
+          tipoEmpleado: empleado.tipoEmpleado,
+          rfcE: empleado.rfcE,
+          nssE: empleado.nssE,
+          salarioE: empleado.salarioE,
+          horarioE: empleado.horarioE,
+          estatus: empleado.estatus,
+          formulario: _formularioEmpleado));
     }
 
-    return jugadores;
+    return empleados;
   }
 
   buscar() {
     if (_textoABuscar.text.length != 0) {
-      jugadoresFiltrados = jugadores.then((value) {
+      empleadosFiltrados = empleados.then((value) {
         String aux = _textoABuscar.text.toLowerCase();
-        List<Jugador> auxJugador = [];
+        List<Empleado> auxEmpleado = [];
         for (var element in value) {
           if (element.nombre.toLowerCase().contains(aux)) {
-            auxJugador.add(element);
+            auxEmpleado.add(element);
           }
         }
-        return auxJugador;
+        return auxEmpleado;
       });
 
       buscando = true;
       setState(() {});
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text("Ingrese el nombre del jugador a buscar",
+          content: const Text("Ingrese el nombre del empleado a buscar",
               style: TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.amber,
           behavior: SnackBarBehavior.floating,
@@ -81,48 +88,61 @@ class _EmpledosInicioState extends State<EmpledosInicio> {
   }
 
   limpiar() {
-    jugadoresFiltrados = jugadores;
+    empleadosFiltrados = empleados;
     _textoABuscar.text = "";
     buscando = false;
     setState(() {});
   }
 
-  Future<void> _formularioJugador(
-    int idPersona,
-    int idJugador,
-    String nombre,
-    String correo,
-    String fechaNacimiento,
-    String numDorsal,
-    String posicion,
-    String primerApellido,
-    String segundoApellido,
-    String sexo,
-    String sobreNombre,
-    String telefono2,
-    String telefono,
-  ) async {
+  Future<void> _formularioEmpleado(
+      int idPersona,
+      int idEmpleado,
+      String nombre,
+      String primerApellido,
+      String segundoApellido,
+      String fechaNacimiento,
+      String sexo,
+      String telefono,
+      String telefono2,
+      String correo,
+      String calleE,
+      String numeroE,
+      String coloniaE,
+      String codigoPostalE,
+      int idMunicipioE,
+      String curpe,
+      int tipoEmpleado,
+      String rfcE,
+      String nssE,
+      double salarioE,
+      String horarioE) async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return FormularioEmpleado(
-            idPersona: idPersona,
-            idJugador: idJugador,
-            nombre: nombre,
-            correo: correo,
-            fechaNacimiento: fechaNacimiento,
-            numDorsal: numDorsal,
-            posicion: posicion,
-            primerApellido: primerApellido,
-            segundoApellido: segundoApellido,
-            sexo: sexo,
-            sobreNombre: sobreNombre,
-            telefono2: telefono2,
-            telefono: telefono,
-          );
+              idPersona: idPersona,
+              nombre: nombre,
+              primerApellido: primerApellido,
+              segundoApellido: segundoApellido,
+              fechaNacimiento: fechaNacimiento,
+              sexo: sexo,
+              telefono: telefono,
+              correo: correo,
+              idEmpleado: idEmpleado,
+              calleE: calleE,
+              numeroE: numeroE,
+              coloniaE: coloniaE,
+              codigoPostalE: codigoPostalE,
+              idMunicipioE: idMunicipioE,
+              curpe: curpe,
+              tipoEmpleado: tipoEmpleado,
+              rfcE: rfcE,
+              nssE: nssE,
+              salarioE: salarioE,
+              horarioE: horarioE);
         }).then((value) {
       setState(() {
-        obtenerJugadores();
+        obtenerEmpleados();
       });
     });
   }
@@ -131,7 +151,7 @@ class _EmpledosInicioState extends State<EmpledosInicio> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Jugadores"),
+        title: const Text("Empleados"),
         centerTitle: true,
         elevation: 0,
       ),
@@ -174,7 +194,7 @@ class _EmpledosInicioState extends State<EmpledosInicio> {
                 ),
 
                 FutureBuilder(
-                  future: jugadoresFiltrados,
+                  future: empleadosFiltrados,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data!.isEmpty) {
@@ -187,7 +207,7 @@ class _EmpledosInicioState extends State<EmpledosInicio> {
                         return ListView(
                           shrinkWrap: true,
                           children:
-                              _listaJugadores(snapshot.data as List<Jugador>),
+                              _listaEmpleados(snapshot.data as List<Empleado>),
                         );
                       }
                     } else if (snapshot.hasError) {
@@ -204,8 +224,8 @@ class _EmpledosInicioState extends State<EmpledosInicio> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Agregar"),
         splashColor: Colors.amber,
-        onPressed: () => _formularioJugador(0, 0, "", "", "01-01-2000", "",
-            "Delantero", "", "", "Hombre", "", "", ""),
+        onPressed: () => _formularioEmpleado(0, 0, "", "", "", "01-01-2000",
+            "Hombre", "", "", "", "", "", "", "", 334, "", 1, "", "", 0, ""),
       ),
     );
   }

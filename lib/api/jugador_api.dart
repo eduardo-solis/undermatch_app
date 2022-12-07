@@ -17,7 +17,6 @@ class JugadorAPI {
       if (response.statusCode == 200) {
         String body = utf8.decode(response.bodyBytes);
         final jsonData = jsonDecode(body);
-        print(jsonData);
         for (var element in jsonData) {
           jugadores.add(Jugador(
               element["IdPersona"],
