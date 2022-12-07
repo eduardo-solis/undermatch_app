@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:undermatch_app/api/jugador_api.dart';
-import 'package:undermatch_app/widgets/jugadores/formulario_jugadores.dart';
 import 'package:undermatch_app/widgets/validacionCambio.dart';
 
-class ElementoJugador extends StatefulWidget {
+class ElementoEmpleado extends StatefulWidget {
   final int idPersona;
   final int idJugador;
   final String nombre;
@@ -20,7 +19,7 @@ class ElementoJugador extends StatefulWidget {
   final int estatus;
   final Function formulario;
 
-  const ElementoJugador(
+  const ElementoEmpleado(
       {Key? key,
       required this.formulario,
       required this.idPersona,
@@ -40,10 +39,10 @@ class ElementoJugador extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<ElementoJugador> createState() => _ElementoJugadorState();
+  State<ElementoEmpleado> createState() => _ElementoEmpleadoState();
 }
 
-class _ElementoJugadorState extends State<ElementoJugador> {
+class _ElementoEmpleadoState extends State<ElementoEmpleado> {
   late int estatusJugador;
 
   Future<void> _validarCambio(Function accion) async {

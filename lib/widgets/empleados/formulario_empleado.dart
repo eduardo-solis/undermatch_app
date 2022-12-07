@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:undermatch_app/api/jugador_api.dart';
 import 'package:undermatch_app/models/jugador.dart';
 
-class FormularioJugador extends StatefulWidget {
+class FormularioEmpleado extends StatefulWidget {
   final int idPersona;
   final int idJugador;
   final String nombre;
@@ -17,7 +17,7 @@ class FormularioJugador extends StatefulWidget {
   final String sobreNombre;
   final String posicion;
 
-  const FormularioJugador({
+  const FormularioEmpleado({
     Key? key,
     required this.idPersona,
     required this.idJugador,
@@ -35,10 +35,10 @@ class FormularioJugador extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<FormularioJugador> createState() => _FormularioJugadorState();
+  State<FormularioEmpleado> createState() => _FormularioEmpleadoState();
 }
 
-class _FormularioJugadorState extends State<FormularioJugador> {
+class _FormularioEmpleadoState extends State<FormularioEmpleado> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   final TextEditingController _nombre = TextEditingController();

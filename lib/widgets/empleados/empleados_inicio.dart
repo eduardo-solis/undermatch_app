@@ -3,16 +3,16 @@ import 'package:undermatch_app/api/jugador_api.dart';
 import 'package:undermatch_app/models/jugador.dart';
 import 'package:undermatch_app/widgets/jugadores/elemento_jugador.dart';
 
-import 'formulario_jugadores.dart';
+import 'formulario_empleado.dart';
 
-class JugadoresInicio extends StatefulWidget {
-  const JugadoresInicio({Key? key}) : super(key: key);
+class EmpledosInicio extends StatefulWidget {
+  const EmpledosInicio({Key? key}) : super(key: key);
 
   @override
-  State<JugadoresInicio> createState() => _JugadoresInicioState();
+  State<EmpledosInicio> createState() => _EmpledosInicioState();
 }
 
-class _JugadoresInicioState extends State<JugadoresInicio> {
+class _EmpledosInicioState extends State<EmpledosInicio> {
   late Future<List<Jugador>> jugadores;
   late Future<List<Jugador>> jugadoresFiltrados;
   bool buscando = false;
@@ -105,7 +105,7 @@ class _JugadoresInicioState extends State<JugadoresInicio> {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return FormularioJugador(
+          return FormularioEmpleado(
             idPersona: idPersona,
             idJugador: idJugador,
             nombre: nombre,
