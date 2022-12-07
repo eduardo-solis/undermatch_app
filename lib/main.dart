@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:undermatch_app/routes/routes.dart';
+import 'package:undermatch_app/widgets/arbitros/arbitros_inicio.dart';
 import 'package:undermatch_app/widgets/empleados/empleados_inicio.dart';
 import 'package:undermatch_app/widgets/equipos/equipos_inicio.dart';
 import 'package:undermatch_app/widgets/jugadores/jugadores_inicio.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
         Routes.EQUIPOS: (context) => const EquiposInicio(),
         Routes.PROVEEDORES: (context) => const ProveedoresInicio(),
         Routes.JUGADORES: (context) => const JugadoresInicio(),
-        Routes.EMPLEADOS: (context) => const EmpledosInicio()
+        Routes.EMPLEADOS: (context) => const EmpledosInicio(),
+        Routes.ARBITROS: (context) => const ArbitrosInicio()
       },
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -73,6 +75,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.pushNamed(context, Routes.EMPLEADOS);
                 },
                 child: const Text("Empleados")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.ARBITROS);
+                },
+                child: const Text("Arbitros")),
           ],
         ),
       ),

@@ -53,7 +53,7 @@ class ArbitroAPI {
 
       final response = await http.post(url);
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         return "OK";
       } else {
         return "ERROR";
@@ -70,7 +70,7 @@ class ArbitroAPI {
 
       final response = await http.put(url);
 
-      if (response.statusCode == 204) {
+      if (response.statusCode == 200) {
         return "OK";
       } else {
         return "ERROR";
