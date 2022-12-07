@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:undermatch_app/routes/routes.dart';
+import 'package:undermatch_app/widgets/empleados/empleados_inicio.dart';
 import 'package:undermatch_app/widgets/equipos/equipos_inicio.dart';
 import 'package:undermatch_app/widgets/jugadores/jugadores_inicio.dart';
 import 'package:undermatch_app/widgets/proveedores/proveedores_inicio.dart';
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
         Routes.INICIO: (context) => const MyHomePage(title: 'UnderMatch API'),
         Routes.EQUIPOS: (context) => const EquiposInicio(),
         Routes.PROVEEDORES: (context) => const ProveedoresInicio(),
-        Routes.JUGADORES: (context) => const JugadoresInicio()
+        Routes.JUGADORES: (context) => const JugadoresInicio(),
+        Routes.EMPLEADOS: (context) => const EmpledosInicio()
       },
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -66,6 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.pushNamed(context, Routes.JUGADORES);
                 },
                 child: const Text("Jugadores")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.EMPLEADOS);
+                },
+                child: const Text("Empleados")),
           ],
         ),
       ),
