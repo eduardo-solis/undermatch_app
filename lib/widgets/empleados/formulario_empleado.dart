@@ -203,6 +203,7 @@ class _FormularioEmpleadoState extends State<FormularioEmpleado> {
     _salarioE.text = widget.salarioE.toString();
     _horarioE.text = widget.horarioE;
     _municipio = widget.idMunicipioE.toString();
+    _tipoEmpleado = widget.tipoEmpleado.toString();
 
     asignarFecha();
     comboDia = List.generate(31, (index) {
