@@ -57,19 +57,29 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
+          children: [
+            const Text(
               "Servicios de la API:",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Text("Equipos"),
-            Text("Jugadores"),
-            Text("Proveedores"),
-            Text("Empleados"),
-            Text("Arbitros"),
+            const Text("Equipos"),
+            const Text("Jugadores"),
+            const Text("Proveedores"),
+            const Text("Empleados"),
+            const Text("Arbitros"),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: const EdgeInsets.all(15),
+              child: const Image(
+                image: NetworkImage(
+                    'https://media.tenor.com/Ywht9hsJG-kAAAAM/football.gif'),
+              ),
+            )
           ],
         ),
       ),

@@ -166,9 +166,9 @@ class _ElementoEmpleadoState extends State<ElementoEmpleado> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Nombre: ${widget.nombre}"),
-              Text("Apellido: ${widget.primerApellido}"),
-              Text("Correo: ${widget.correo}"),
+              Text(widget.nombre),
+              Text(widget.primerApellido),
+              Text(widget.correo),
             ],
           ),
           Row(

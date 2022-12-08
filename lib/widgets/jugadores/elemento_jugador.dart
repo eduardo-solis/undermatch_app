@@ -152,9 +152,9 @@ class _ElementoJugadorState extends State<ElementoJugador> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Nombre: ${widget.nombre}"),
-              Text("SobreNombre: ${widget.sobreNombre}"),
-              Text("Núm. Dorsal: ${widget.numDorsal}"),
+              Text(widget.nombre),
+              Text(widget.sobreNombre),
+              Text("Dorsal: ${widget.numDorsal}"),
             ],
           ),
           Row(

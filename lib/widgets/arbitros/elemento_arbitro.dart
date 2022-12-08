@@ -149,9 +149,9 @@ class _ElementoArbitroState extends State<ElementoArbitro> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Nombre: ${widget.nombre}"),
-              Text("Apellido: ${widget.primerApellido}"),
-              Text("Costo Arbitraje: ${widget.costoArbitraje}"),
+              Text(widget.nombre),
+              Text(widget.primerApellido),
+              Text("Costo: ${widget.costoArbitraje}"),
             ],
           ),
           Row(

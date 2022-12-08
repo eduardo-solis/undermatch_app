@@ -37,9 +37,9 @@ class DrawerMenu extends StatelessWidget {
               icon: Icons.sports,
               text: 'Arbitros',
               onTap: () => {Navigator.pushNamed(context, Routes.ARBITROS)}),
-          Divider(),
+          const Divider(),
           ListTile(
-            title: Text('App version 1.0.0'),
+            title: const Text('App version 08.12.2022'),
             onTap: () {},
           ),
         ],
