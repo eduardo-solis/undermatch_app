@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:undermatch_app/controller/proveedor_api.dart';
 import 'package:undermatch_app/models/proveedor.dart';
 
@@ -170,6 +171,7 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
             decoration: const InputDecoration(
               label: Text("Nombre"),
             ),
+            maxLength: 100,
             controller: _nombre,
             validator: (value) {
               String dato = value.toString();
@@ -189,7 +191,7 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
               String dato = value.toString();
 
               if (dato.length != 13) {
-                return "Este campo debe tener 13 caracteristicas";
+                return "Este campo debe tener 13 caracteres";
               }
             },
           ),
@@ -198,6 +200,7 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
               label: Text("Razón Social"),
             ),
             controller: _razonSocial,
+            maxLength: 50,
             validator: (value) {
               String dato = value.toString();
 
@@ -211,6 +214,7 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
               label: Text("Calle"),
             ),
             controller: _calle,
+            maxLength: 100,
             validator: (value) {
               String dato = value.toString();
 
@@ -224,9 +228,14 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
               label: Text("Número"),
             ),
             controller: _numero,
+            maxLength: 50,
             keyboardType: TextInputType.number,
             validator: (value) {
               String dato = value.toString();
+
+              if (dato == "") {
+                return "Este campo es obligatorio";
+              }
 
               if (dato.startsWith("0")) {
                 return "Este campo no puede contener un 0 al inicio";
@@ -244,6 +253,7 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
               label: Text("Colonia"),
             ),
             controller: _colonia,
+            maxLength: 100,
             validator: (value) {
               String dato = value.toString();
 
@@ -258,9 +268,14 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
             ),
             controller: _cp,
             maxLength: 5,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             keyboardType: TextInputType.number,
             validator: (value) {
               String dato = value.toString();
+
+              if (dato == "") {
+                return "Este campo es obligatorio";
+              }
 
               if (dato.startsWith("0")) {
                 return "Este campo no puede contener un 0 al inicio";
@@ -299,6 +314,7 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
             decoration: const InputDecoration(
               label: Text("Correo"),
             ),
+            maxLength: 100,
             controller: _correo,
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
@@ -314,6 +330,8 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
               label: Text("Telefono"),
             ),
             controller: _telefono,
+            maxLength: 10,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             keyboardType: TextInputType.phone,
             validator: (value) {
               String dato = value.toString();
