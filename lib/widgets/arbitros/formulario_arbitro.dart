@@ -160,7 +160,7 @@ class _FormularioArbitroState extends State<FormularioArbitro> {
     _sexo = widget.sexo;
 
     _tipoArbitro = widget.idTipoArbotro.toString();
-    _tipoCategoria = widget.idTipoArbotro.toString();
+    _tipoCategoria = widget.idCategoria.toString();
     _costoArbitraje.text = widget.costoArbitraje.toString();
 
     asignarFecha();

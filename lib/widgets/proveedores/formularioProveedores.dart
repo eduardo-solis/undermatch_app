@@ -48,11 +48,8 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
   final TextEditingController _numero = TextEditingController();
   final TextEditingController _colonia = TextEditingController();
   final TextEditingController _cp = TextEditingController();
-  final TextEditingController _idMunicipio = TextEditingController();
-  final TextEditingController _idTipoProveedor = TextEditingController();
   final TextEditingController _correo = TextEditingController();
   final TextEditingController _telefono = TextEditingController();
-  final TextEditingController _idPlantel = TextEditingController();
 
   String valorMunicipio = "334";
   List<DropdownMenuItem<String>> comboMunicipios = [
@@ -77,23 +74,22 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
 
   guardar() {
     if (_form.currentState!.validate()) {
+      Proveedor proveedor = Proveedor(
+          widget.idProveedor,
+          _rfc.text,
+          _nombre.text,
+          _razonSocial.text,
+          _calle.text,
+          _numero.text,
+          _colonia.text,
+          _cp.text,
+          int.parse(valorMunicipio),
+          int.parse(valorTProveedor),
+          _correo.text,
+          _telefono.text,
+          int.parse(valorPlantel),
+          1);
       if (widget.idProveedor != 0) {
-        Proveedor proveedor = Proveedor(
-            widget.idProveedor,
-            _rfc.text,
-            _nombre.text,
-            _razonSocial.text,
-            _calle.text,
-            _numero.text,
-            _colonia.text,
-            _cp.text,
-            int.parse(valorMunicipio),
-            int.parse(valorTProveedor),
-            _correo.text,
-            _telefono.text,
-            int.parse(valorPlantel),
-            1);
-
         ProveedorAPI().editar(proveedor).then((res) {
           if (res == "OK") {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -117,22 +113,6 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
           }
         });
       } else {
-        Proveedor proveedor = Proveedor(
-            widget.idProveedor,
-            _rfc.text,
-            _nombre.text,
-            _razonSocial.text,
-            _calle.text,
-            _numero.text,
-            _colonia.text,
-            _cp.text,
-            int.parse(valorMunicipio),
-            int.parse(valorTProveedor),
-            _correo.text,
-            _telefono.text,
-            int.parse(valorPlantel),
-            1);
-
         ProveedorAPI().agregar(proveedor).then((res) {
           if (res == "OK") {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -171,11 +151,11 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
     _numero.text = widget.numero;
     _colonia.text = widget.colonia;
     _cp.text = widget.codigoPostal;
-    _idMunicipio.text = widget.idMunicipio.toString();
-    _idTipoProveedor.text = widget.idTipoProveedor.toString();
+    valorMunicipio = widget.idMunicipio.toString();
+    valorTProveedor = widget.idTipoProveedor.toString();
     _correo.text = widget.correo;
     _telefono.text = widget.telefono;
-    _idPlantel.text = widget.idPanel.toString();
+    valorPlantel = widget.idPanel.toString();
   }
 
   @override
