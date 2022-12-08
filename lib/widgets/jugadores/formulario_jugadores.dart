@@ -231,6 +231,13 @@ class _FormularioJugadorState extends State<FormularioJugador> {
               label: Text("Segundo Apellido"),
             ),
             controller: _segundoApellido,
+            validator: (value) {
+              String dato = value.toString();
+
+              if (dato == "") {
+                return "Este campo es obligatorio";
+              }
+            },
           ),
           const Text("Fecha de nacimiento"),
           Row(
@@ -295,12 +302,23 @@ class _FormularioJugadorState extends State<FormularioJugador> {
               label: Text("Telefono"),
             ),
             controller: _telefono,
-            keyboardType: TextInputType.phone,
+            keyboardType: TextInputType.number,
+            maxLength: 10,
             validator: (value) {
               String dato = value.toString();
 
               if (dato == "") {
                 return "Este campo es obligatorio";
+              }
+              if (dato.length != 10) {
+                return "Este campo debe contener 10 digitos";
+              }
+              if (dato.contains(".") ||
+                  dato.contains(" ") ||
+                  dato.contains(",") ||
+                  dato.startsWith("0") ||
+                  dato.contains("-")) {
+                return "Este campo debe contener 10 digitos";
               }
             },
           ),
@@ -316,6 +334,9 @@ class _FormularioJugadorState extends State<FormularioJugador> {
               if (dato == "") {
                 return "Este campo es obligatorio";
               }
+              if (!dato.contains("@")) {
+                return "No tiene el formato";
+              }
             },
           ),
           TextFormField(
@@ -323,6 +344,7 @@ class _FormularioJugadorState extends State<FormularioJugador> {
               label: Text("Número de dorsal"),
             ),
             controller: _numDorsal,
+            maxLength: 2,
             validator: (value) {
               String dato = value.toString();
 

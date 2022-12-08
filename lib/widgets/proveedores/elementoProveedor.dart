@@ -175,8 +175,8 @@ class _ElementoProveedorState extends State<ElementoProveedor> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Nombre: ${widget.nombre}"),
-              Text("Razón Social: ${widget.razonSocial}"),
+              Text(widget.nombre),
+              Text(widget.razonSocial),
               Text("Telefono: ${widget.telefono}"),
             ],
           ),

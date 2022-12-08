@@ -176,6 +176,13 @@ class _FormularioEquiposState extends State<FormularioEquipos> {
               if (dato.length != 4) {
                 return "El año debe ser de 4 digitos";
               }
+              if (dato.contains(".") ||
+                  dato.contains(",") ||
+                  dato.contains("-") ||
+                  dato.contains(" ") ||
+                  dato.startsWith("0")) {
+                return "El año debe ser de 4 digitos";
+              }
             },
           ),
           TextFormField(

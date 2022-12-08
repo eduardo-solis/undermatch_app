@@ -204,11 +204,12 @@ class _FormularioProveedorState extends State<FormularioProveedor> {
               label: Text("RFC"),
             ),
             controller: _rfc,
+            maxLength: 13,
             validator: (value) {
               String dato = value.toString();
 
-              if (dato == "") {
-                return "Este campo es obligatorio";
+              if (dato.length != 13) {
+                return "Este campo debe tener 13 caracteristicas";
               }
             },
           ),
