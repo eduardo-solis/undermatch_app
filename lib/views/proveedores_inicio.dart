@@ -203,7 +203,7 @@ class _ProveedoresInicioState extends State<ProveedoresInicio> {
         label: const Text("Agregar"),
         splashColor: Colors.amber,
         onPressed: () => _formularioProveedor(
-            0, 0, 0, 0, "", "", "", "", "", "", "", "", ""),
+            0, 334, 1, 1, "", "", "", "", "", "", "", "", ""),
       ),
     );
   }
